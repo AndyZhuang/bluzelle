@@ -1,3 +1,5 @@
+import {EditableField} from "../EditableField";
+
 export class KeyList extends Component {
     render() {
         return (
@@ -10,13 +12,15 @@ export class KeyList extends Component {
                             <BS.Glyphicon glyph='open-file'/>
                         </span>
 
-                        Sample Row 1
+                        <EditableField
+                            val={'Sample Row 1'}/>
                     </BS.ListGroupItem>
                     <BS.ListGroupItem active>
                         <span style={{display: 'inline-block', width: 25}}>
                             <BS.Glyphicon glyph='font'/>
                         </span>
-                        Sample Row 2
+                        <EditableField
+                            val={'Sample Row 2'}/>
 
                         <BS.Glyphicon
                             style={{float: 'right'}}
@@ -29,7 +33,9 @@ export class KeyList extends Component {
                                 fontFamily: 'monospace'
                             }}>{'{}'}</span>
                         </span>
-                        Sample Row 3
+
+                        <EditableField
+                            val={'Sample Row 3'}/>
                     </BS.ListGroupItem>
                 </BS.ListGroup>
                 <BS.ButtonGroup>
