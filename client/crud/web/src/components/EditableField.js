@@ -1,5 +1,5 @@
 import {Form, FormGroup} from 'react-bootstrap';
-import {SelectedInput} from "./SelectedInput";
+import {SelectedInput} from "./JSONEditor/SelectedInput";
 
 export class EditableField extends Component {
     constructor(props) {

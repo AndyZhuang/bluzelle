@@ -1,5 +1,5 @@
 import {observableMapRecursive} from "../../../mobXUtils";
-import {EditableField} from "../EditableField";
+import {EditableField} from "../../EditableField";
 
 export class NewField extends Component {
     constructor(props) {

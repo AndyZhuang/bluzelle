@@ -1,5 +1,5 @@
 import {del, get, observableMapRecursive} from "../../../mobXUtils";
-import {EditableField} from "../EditableField";
+import {EditableField} from "../../EditableField";
 import {Delete} from "../Buttons";
 
 export const RenderField = ({ obj, propName, preamble, editing, onChange, hovering }) => (

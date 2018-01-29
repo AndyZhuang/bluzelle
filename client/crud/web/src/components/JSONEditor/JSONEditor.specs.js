@@ -2,7 +2,7 @@ import {JSONEditor} from "./JSONEditor";
 import {RenderObject} from "./Objects/RenderObject";
 import {RenderArray} from "./Arrays/RenderArray";
 import {RenderTree} from "./Trees/RenderTree";
-import {EditableField} from "./EditableField";
+import {EditableField} from "../EditableField";
 import {Hoverable} from "./Hoverable";
 import {each} from 'lodash';
 import {observableMapRecursive as omr} from "../../mobXUtils";

@@ -1,4 +1,4 @@
-import {EditableField} from "../EditableField";
+import {EditableField} from "../../EditableField";
 import {RenderTree} from "../Trees/RenderTree";
 
 export const RenderTreeWithEditableKey = ({obj, propName, ...props}) => {

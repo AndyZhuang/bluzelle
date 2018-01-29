@@ -1,4 +1,4 @@
-import {EditableField} from "../EditableField";
+import {EditableField} from "../../EditableField";
 import {observableMapRecursive} from "../../../mobXUtils";
 
 export const NewField = ({ arr, onEnd }) => (
