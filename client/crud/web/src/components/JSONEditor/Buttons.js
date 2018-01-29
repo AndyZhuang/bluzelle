@@ -11,7 +11,7 @@ export const Delete = ({ onClick }) => (
             float: 'right',
             color: 'red'
         }} onClick={ onClick }>
-        X
+        <BS.Glyphicon glyph='remove'/>
     </BS.Button>
 );
 
@@ -35,6 +35,6 @@ export const Plus = ({ onClick }) => (
             ...common,
             color: 'green'
         }} onClick={ onClick }>
-        +
+        <BS.Glyphicon glyph='plus'/>
     </BS.Button>
 );

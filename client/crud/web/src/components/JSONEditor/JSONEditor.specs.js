@@ -67,17 +67,17 @@ describe('JSONEditor', () => {
         it('should delete a boolean field', () => {
 
             const obj = omr({ root: { a: true }});
-            const mWrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const mWrapper = mount(<JSONEditor obj={obj} propName='root' isRoot={true}/>);
+
+            // mWrapper.find('span').filter({ className: 'glyphicon glyphicon-pencil' })
 
             mWrapper
                 .find(RenderObject)
                 .find(Hoverable)
                 .simulate('mouseOver');
 
-            mWrapper
-                .find('button')
-                .filterWhere(el => el.text() === 'X')
-                .at(1) // Skip the delete root
+            mWrapper.find('span')
+                .filter({ className: 'glyphicon glyphicon-remove' })
                 .simulate('click');
 
             expect(obj.get('root').get('a')).to.be.undefined;
@@ -106,8 +106,8 @@ describe('JSONEditor', () => {
             mWrapper
                 .find(RenderTree)
                 .filter({ propName: 3 })
-                .find('button')
-                .filterWhere(el => el.text() === 'X')
+                .find('span')
+                .filter({ className: 'glyphicon glyphicon-remove' })
                 .first()
                 .simulate('click');
 
@@ -118,8 +118,8 @@ describe('JSONEditor', () => {
                 .find(RenderTree)
                 .filter({ propName: 'otherObject' })
                 .simulate('mouseOver')
-                .find('button')
-                .filterWhere(el => el.text() === 'X')
+                .find('span')
+                .filter({ className: 'glyphicon glyphicon-remove' })
                 .first()
                 .simulate('click');
 
@@ -198,8 +198,8 @@ describe('JSONEditor', () => {
 
             wrapper.find(RenderObject).simulate('mouseOver');
 
-            wrapper.find('button')
-                .filterWhere(el => el.text() === '+')
+            wrapper.find('span')
+                .filter({ className: 'glyphicon glyphicon-plus' })
                 .simulate('click');
 
         });
@@ -215,8 +215,8 @@ describe('JSONEditor', () => {
                 .find(Hoverable)
                 .simulate('mouseOver');
 
-            wrapper.find('button')
-                .filterWhere(el => el.text() === '+')
+            wrapper.find('span')
+                .filter({ className: 'glyphicon glyphicon-plus' })
                 .simulate('click');
 
             wrapper.find('input')
@@ -245,8 +245,8 @@ describe('JSONEditor', () => {
                 .find(Hoverable)
                 .simulate('mouseOver');
 
-            wrapper.find('button')
-                .filterWhere(el => el.text() === '+')
+            wrapper.find('span')
+                .filter({ className: 'glyphicon glyphicon-plus' })
                 .simulate('click');
 
             wrapper.find('input')
@@ -271,8 +271,8 @@ describe('JSONEditor', () => {
                 .simulate('mouseOver');
 
             wrapper.find(RenderArray)
-                .find('button')
-                .filterWhere(el => el.text() === '+')
+                .find('span')
+                .filter({ className: 'glyphicon glyphicon-plus' })
                 .simulate('click');
 
             wrapper.find('input')
