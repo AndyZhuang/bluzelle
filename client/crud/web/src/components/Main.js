@@ -1,5 +1,8 @@
 import {JSONEditor} from "./JSONEditor";
 import {getSwarmData} from '../services/DataService';
+import {KeyList} from "./KeyList";
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const MainComponent = () => (
     <ReflexContainer
@@ -11,8 +14,8 @@ const MainComponent = () => (
 
         <ReflexElement flex={1}>
             <ReflexContainer orientation='vertical'>
-                <ReflexElement>
-                    Keys
+                <ReflexElement flex={0.4}>
+                    <KeyList/>
                 </ReflexElement>
                 <ReflexSplitter/>
                 <ReflexElement>
