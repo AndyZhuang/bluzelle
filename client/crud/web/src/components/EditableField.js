@@ -51,7 +51,7 @@ export class EditableField extends Component {
         const renderValWithDefault = renderVal || (i => i);
 
         return (
-            <span onClick={() => this.setState({ formActive: true })}>
+            <span onClick={() => this.setState({ formActive: true, hovering: false })}>
               {this.state.formActive ?
                   <Form inline
                         style={{display: 'inline'}}
