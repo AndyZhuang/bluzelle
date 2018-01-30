@@ -55,8 +55,29 @@ export class KeyList extends Component {
                         this.setState({editing: false});
                         if (key === '') return;
                         obj.set(key, observable.map({}));
+                        onSelect(key);
                     }}/>
             </BS.ListGroupItem>;
+
+
+        const addButton =
+            <BS.Button
+                style={{color: 'green'}}
+                onClick={() => this.setState({editing: true})}>
+                <BS.Glyphicon glyph='plus'/>
+            </BS.Button>;
+
+        const removeButton =
+            <BS.Button
+                style={{color: 'red'}}
+                onClick={() => {
+                    if (selected !== null) {
+                        onSelect(null);
+                        obj.delete(selected);
+                    }
+                }}>
+                <BS.Glyphicon glyph='remove'/>
+            </BS.Button>;
 
 
         return (
@@ -66,21 +87,8 @@ export class KeyList extends Component {
                     {newKey}
                 </BS.ListGroup>
                 <BS.ButtonGroup>
-                    <BS.Button
-                        style={{color: 'green'}}
-                        onClick={() => this.setState({editing: true})}>
-                        <BS.Glyphicon glyph='plus'/>
-                    </BS.Button>
-                    <BS.Button
-                        style={{color: 'red'}}
-                        onClick={() => {
-                            if (selected !== null) {
-                                onSelect(null);
-                                obj.delete(selected);
-                            }
-                        }}>
-                        <BS.Glyphicon glyph='remove'/>
-                    </BS.Button>
+                    {addButton}
+                    {removeButton}
                 </BS.ButtonGroup>
             </div>
         );
