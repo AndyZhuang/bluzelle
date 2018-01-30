@@ -9,10 +9,10 @@ export class QueueEditor extends Component {
 
                 <BS.ListGroup>
                     {commandQueue.map(
-                        ({ doIt, undoIt, message }, index) =>
+                        ({ revert, message }, index) =>
 
                         <BS.ListGroupItem
-                            onClick={undoIt}
+                            onClick={revert}
                             key={index}>
 
                             {message}
