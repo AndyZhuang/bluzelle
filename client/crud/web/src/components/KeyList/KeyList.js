@@ -2,10 +2,18 @@ import {EditableField} from "../EditableField";
 
 @observer
 export class KeyList extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            editing: false
+        };
+    }
+
     render() {
         const {obj, selected, onSelect} = this.props;
 
-        const list = obj.keys().sort().map(key =>
+        const keyList = obj.keys().sort().map(key =>
             <BS.ListGroupItem
                 key={key}
                 onClick={() => selected === key ? onSelect(null) : onSelect(key)}
@@ -34,21 +42,39 @@ export class KeyList extends Component {
                 }
             </BS.ListGroupItem>);
 
+
+        const newKey = this.state.editing &&
+            <BS.ListGroupItem>
+                <span style={{display: 'inline-block', width: 25}}>
+                    <BS.Glyphicon glyph='asterisk'/>
+                </span>
+                <EditableField
+                    val=''
+                    active={true}
+                    onChange={key => {
+                        this.setState({editing: false});
+                        if (key === '') return;
+                        obj.set(key, observable.map({}));
+                    }}/>
+            </BS.ListGroupItem>;
+
+
         return (
-            <div style={{ padding: 10 }}>
+            <div style={{padding: 10}}>
                 <BS.ListGroup>
-                    {list}
+                    {keyList}
+                    {newKey}
                 </BS.ListGroup>
                 <BS.ButtonGroup>
                     <BS.Button
                         style={{color: 'green'}}
-                        onClick={() => alert('plus clicked')}>
+                        onClick={() => this.setState({editing: true})}>
                         <BS.Glyphicon glyph='plus'/>
                     </BS.Button>
                     <BS.Button
                         style={{color: 'red'}}
                         onClick={() => {
-                            if(selected !== null) {
+                            if (selected !== null) {
                                 onSelect(null);
                                 obj.delete(selected);
                             }
