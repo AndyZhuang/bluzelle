@@ -1,4 +1,4 @@
-import {commandQueue} from "../services/CommandQueueService";
+import {commandQueue, currentPosition} from "../services/CommandQueueService";
 
 @observer
 export class QueueEditor extends Component {
@@ -13,7 +13,8 @@ export class QueueEditor extends Component {
 
                         <BS.ListGroupItem
                             onClick={revert}
-                            key={index}>
+                            key={index}
+                            active={currentPosition.get() === index}>
 
                             {message}
                         </BS.ListGroupItem>

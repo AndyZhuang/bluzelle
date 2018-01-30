@@ -1,20 +1,19 @@
 export const commandQueue = observable([]);
+export const currentPosition = observable(0);
 
-let currentPosition = 0;
 
 const revert = targetPosition => {
-
-    console.log('revert', currentPosition, targetPosition);
-
-    if (currentPosition > targetPosition) {
-        console.log('undoing');
-        commandQueue[currentPosition--].undoIt();
+    const cp = currentPosition.get();
+    
+    if (cp > targetPosition) {
+        commandQueue[cp].undoIt();
+        currentPosition.set(cp - 1)
         revert(targetPosition);
     }
 
-    if (currentPosition < targetPosition) {
-        console.log('redoing');
-        commandQueue[++currentPosition].doIt();
+    if (cp < targetPosition) {
+        commandQueue[cp + 1].doIt();
+        currentPosition.set(cp + 1)
         revert(targetPosition);
     }
 };
@@ -28,11 +27,11 @@ commandQueue.push({
 export const execute = (doIt, undoIt, message) => {
     doIt();
 
-    currentPosition++;
+    currentPosition.set(currentPosition.get() + 1);
     deleteFuture();
 
     commandQueue.push({
-        revert: revert.bind(this, currentPosition),
+        revert: revert.bind(this, currentPosition.get()),
         doIt,
         undoIt,
         message
@@ -40,4 +39,4 @@ export const execute = (doIt, undoIt, message) => {
 };
 
 const deleteFuture = () =>
-    (currentPosition >= 0) && (commandQueue.length = currentPosition);
+    (currentPosition.get() >= 0) && (commandQueue.length = currentPosition.get());
