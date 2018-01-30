@@ -3,7 +3,6 @@ import {EditableField} from "../EditableField";
 @observer
 export class KeyList extends Component {
     render() {
-
         const {obj, selected, onSelect} = this.props;
 
         const list = obj.keys().sort().map(key =>
@@ -41,10 +40,19 @@ export class KeyList extends Component {
                     {list}
                 </BS.ListGroup>
                 <BS.ButtonGroup>
-                    <BS.Button style={{color: 'green'}}>
+                    <BS.Button
+                        style={{color: 'green'}}
+                        onClick={() => alert('plus clicked')}>
                         <BS.Glyphicon glyph='plus'/>
                     </BS.Button>
-                    <BS.Button style={{color: 'red'}}>
+                    <BS.Button
+                        style={{color: 'red'}}
+                        onClick={() => {
+                            if(selected !== null) {
+                                onSelect(null);
+                                obj.delete(selected);
+                            }
+                        }}>
                         <BS.Glyphicon glyph='remove'/>
                     </BS.Button>
                 </BS.ButtonGroup>
