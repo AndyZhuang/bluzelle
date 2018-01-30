@@ -1,42 +1,44 @@
 import {EditableField} from "../EditableField";
 
+@observer
 export class KeyList extends Component {
     render() {
-        return (
-            <div style={{
-                padding: 10
-            }}>
-                <BS.ListGroup>
-                    <BS.ListGroupItem>
-                        <span style={{display: 'inline-block', width: 25}}>
-                            <BS.Glyphicon glyph='open-file'/>
-                        </span>
 
-                        <EditableField
-                            val={'Sample Row 1'}/>
-                    </BS.ListGroupItem>
-                    <BS.ListGroupItem active>
-                        <span style={{display: 'inline-block', width: 25}}>
-                            <BS.Glyphicon glyph='font'/>
-                        </span>
-                        <EditableField
-                            val={'Sample Row 2'}/>
+        const {obj, selected, onSelect} = this.props;
 
+        const list = obj.keys().sort().map(key =>
+            <BS.ListGroupItem
+                key={key}
+                onClick={() => selected === key ? onSelect(null) : onSelect(key)}
+                active={selected === key}>
+
+                <span style={{display: 'inline-block', width: 25}}>
+                    {objIcon(obj.get(key))}
+                </span>
+
+                <EditableField
+                    val={key}
+                    onChange={newkey => {
+                        const old = obj.get(key);
+                        obj.delete(key);
+                        obj.set(newkey, old);
+
+                        selected === key && onSelect(newkey);
+                    }}/>
+
+                {
+                    key === selected ?
                         <BS.Glyphicon
                             style={{float: 'right'}}
                             glyph='chevron-right'/>
-                    </BS.ListGroupItem>
-                    <BS.ListGroupItem>
-                        <span style={{display: 'inline-block', width: 25}}>
-                            <span style={{
-                                fontWeight: 'bold',
-                                fontFamily: 'monospace'
-                            }}>{'{}'}</span>
-                        </span>
+                        : null
+                }
+            </BS.ListGroupItem>);
 
-                        <EditableField
-                            val={'Sample Row 3'}/>
-                    </BS.ListGroupItem>
+        return (
+            <div style={{ padding: 10 }}>
+                <BS.ListGroup>
+                    {list}
                 </BS.ListGroup>
                 <BS.ButtonGroup>
                     <BS.Button style={{color: 'green'}}>
@@ -50,3 +52,21 @@ export class KeyList extends Component {
         );
     }
 }
+
+const objIcon = obj => (
+    <span style={{display: 'inline-block', width: 25}}>
+        {
+            'isObjectType' ?
+                (
+                    <span style={{
+                        fontWeight: 'bold',
+                        fontFamily: 'monospace'
+                    }}>{'{}'}</span>
+                ) : (
+                    <BS.Glyphicon glyph={
+                        'isBinaryType' ? 'open-file' : 'font'
+                    }/>
+                )
+        }
+    </span>
+);

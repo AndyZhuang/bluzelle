@@ -1,37 +1,50 @@
-import {JSONEditor} from "./JSONEditor";
+import {Editor} from "./Editor";
 import {getSwarmData} from '../services/DataService';
 import {KeyList} from "./KeyList";
-import logo from './logo-color.png';
+import {Header} from "./Header";
 import 'bootstrap/dist/css/bootstrap.css';
 
 
-const MainComponent = () => (
-    <ReflexContainer style={{ height: '100%' }}>
-        <ReflexFixed style={{
-            marginBottom: 15
-        }}>
-            <img src={logo}/>
-            <h1 style={{
-                display: 'inline-block',
-                fontWeight: 'bold',
-                marginLeft: 35,
-                marginBottom: 0,
-                verticalAlign: 'bottom',
-                fontSize: 40
-            }}>Database Editor</h1>
-        </ReflexFixed>
-        <ReflexElement flex={1}>
-            <ReflexContainer orientation='vertical'>
-                <ReflexElement flex={0.4}>
-                    <KeyList/>
-                </ReflexElement>
-                <ReflexSplitter/>
-                <ReflexElement>
-                    <JSONEditor obj={getSwarmData()} propName='key1' isRoot={true}/>
+@observer
+export class Main extends Component {
+    constructor(props) {
+        super(props);
+
+        const obj = getSwarmData();
+
+        this.state = {
+            obj,
+            selected: obj.keys()[0]
+        };
+    }
+
+    render() {
+
+        const {obj, selected} = this.state;
+
+        return (
+            <ReflexContainer style={{height: '100%'}}>
+                <ReflexFixed style={{ marginBottom: 15 }}>
+                   <Header/>
+                </ReflexFixed>
+                <ReflexElement flex={1}>
+                    <ReflexContainer orientation='vertical'>
+                        <ReflexElement flex={0.4}>
+                            <KeyList
+                                obj={obj}
+                                selected={selected}
+                                onSelect={key => this.setState({ selected: key })}/>
+                        </ReflexElement>
+                        <ReflexSplitter/>
+                        <ReflexElement>
+                            {
+                                selected !== null &&
+                                    <Editor obj={obj} propName={selected}/>
+                            }
+                        </ReflexElement>
+                    </ReflexContainer>
                 </ReflexElement>
             </ReflexContainer>
-        </ReflexElement>
-    </ReflexContainer>
-);
-
-export const Main = observer(MainComponent);
+        );
+    }
+}
