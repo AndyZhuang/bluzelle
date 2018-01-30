@@ -1,6 +1,7 @@
 import {del, get, observableMapRecursive} from "../../../mobXUtils";
 import {EditableField} from "../../EditableField";
 import {Delete} from "../Buttons";
+import {execute} from "../../../services/CommandQueueService";
 
 export const RenderField = ({ obj, propName, preamble, editing, onChange, hovering }) => (
     <div>
@@ -10,7 +11,13 @@ export const RenderField = ({ obj, propName, preamble, editing, onChange, hoveri
             active={editing}
             onChange={v => {
                 onChange();
-                obj.set(propName, observableMapRecursive(JSON.parse(v)));
+
+                const oldVal = get(obj, propName);
+
+                execute(
+                    () => obj.set(propName, observableMapRecursive(JSON.parse(v))),
+                    () => obj.set(propName, oldVal),
+                    `Set field ${propName} to ${v}`);
             }}
             val={JSON.stringify(get(obj, propName))}
             validateJSON={true}

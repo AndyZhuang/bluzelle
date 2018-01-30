@@ -1,5 +1,6 @@
 import {EditableField} from "../../EditableField";
 import {observableMapRecursive} from "../../../mobXUtils";
+import {execute} from "../../../services/CommandQueueService";
 
 export const NewField = ({ arr, onEnd }) => (
     <div>
@@ -12,7 +13,13 @@ export const NewField = ({ arr, onEnd }) => (
             onChange={val => {
                 try {
                     const obj = observableMapRecursive(JSON.parse(val));
-                    arr.push(obj);
+
+                    // todo: refactor this into renderArray like we have in renderObject
+                    execute(
+                        () => arr.push(obj),
+                        () => arr.pop(),
+                        `Pushed ${JSON.stringify(val)} to array.`);
+
                 } catch(e) {}
 
                 onEnd();

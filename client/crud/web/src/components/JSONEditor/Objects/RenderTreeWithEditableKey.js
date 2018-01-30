@@ -1,5 +1,6 @@
 import {EditableField} from "../../EditableField";
 import {RenderTree} from "../Trees/RenderTree";
+import {execute} from "../../../services/CommandQueueService";
 
 export const RenderTreeWithEditableKey = ({obj, propName, ...props}) => {
     const preamble =
@@ -7,9 +8,19 @@ export const RenderTreeWithEditableKey = ({obj, propName, ...props}) => {
             val={propName}
             renderVal={val => <span style={{color: 'navy'}}>{val}</span>}
             onChange={newkey => {
-                const oldval = obj.get(propName);
-                obj.delete(propName);
-                obj.set(newkey, oldval);
+
+                execute(
+                    () => {
+                        const oldval = obj.get(propName);
+                        obj.delete(propName);
+                        obj.set(newkey, oldval);
+                    },
+                    () => {
+                        const oldval = obj.get(newkey);
+                        obj.delete(newkey);
+                        obj.set(propName, oldval);
+                    },
+                    `Rename ${propName} to ${newkey}`);
             }}/>;
 
     return <RenderTree

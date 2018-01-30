@@ -4,6 +4,7 @@ import {Hoverable} from '../Hoverable.js';
 import {get, del} from '../../../mobXUtils';
 import {RenderTreeWithEditableKey} from "./RenderTreeWithEditableKey";
 import {NewField} from "./NewField";
+import {execute} from '../../../services/CommandQueueService'
 
 @observer
 export class RenderObject extends Component {
@@ -31,8 +32,12 @@ export class RenderObject extends Component {
                 <NewField
                     onChange={(key, val) => {
                         this.setState({showNewField: false});
-                        get(obj, propName).set(key, val);
-                    }}
+
+                        execute(
+                            () => get(obj, propName).set(key, val),
+                            () => get(obj, propName).delete(key),
+                            `New field ${key}`);
+                        }}
                     onError={() => this.setState({showNewField: false})}/>
             </Hoverable>;
 

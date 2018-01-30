@@ -3,7 +3,7 @@ import {getSwarmData} from '../services/DataService';
 import {KeyList} from "./KeyList";
 import {Header} from "./Header";
 import 'bootstrap/dist/css/bootstrap.css';
-
+import {QueueEditor} from "./QueueEditor";
 
 @observer
 export class Main extends Component {
@@ -34,6 +34,10 @@ export class Main extends Component {
                                 obj={obj}
                                 selected={selected}
                                 onSelect={key => this.setState({ selected: key })}/>
+
+                            <hr/>
+
+                            <QueueEditor/>
                         </ReflexElement>
                         <ReflexSplitter/>
                         <ReflexElement>
