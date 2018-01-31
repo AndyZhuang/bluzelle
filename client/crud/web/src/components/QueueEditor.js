@@ -7,19 +7,21 @@ export class QueueEditor extends Component {
             <div>
                 <h2>Command Queue</h2>
 
-                <BS.ListGroup>
-                    {commandQueue.map(
-                        ({ revert, message }, index) =>
+                <div style={{fontFamily: 'monospace'}}>
+                    <BS.ListGroup>
+                        {commandQueue.map(
+                            ({revert, message}, index) =>
 
-                        <BS.ListGroupItem
-                            onClick={revert}
-                            key={index}
-                            active={currentPosition.get() === index}>
+                                <BS.ListGroupItem
+                                    onClick={revert}
+                                    key={index}
+                                    active={currentPosition.get() === index}>
 
-                            {message}
-                        </BS.ListGroupItem>
-                    )}
-                </BS.ListGroup>
+                                    {message}
+                                </BS.ListGroupItem>
+                        )}
+                    </BS.ListGroup>
+                </div>
             </div>
         );
     }

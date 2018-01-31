@@ -24,6 +24,10 @@ commandQueue.push({
 });
 
 
+// Caution: the consecutive execution of undoIt and doIt
+// must return the original object, or else subsequent redos
+// will not be bound correctly.
+
 export const execute = (doIt, undoIt, message) => {
     doIt();
 

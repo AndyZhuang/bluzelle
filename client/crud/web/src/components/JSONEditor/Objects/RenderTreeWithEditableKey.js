@@ -20,7 +20,7 @@ export const RenderTreeWithEditableKey = ({obj, propName, ...props}) => {
                         obj.delete(newkey);
                         obj.set(propName, oldval);
                     },
-                    `Rename ${propName} to ${newkey}`);
+                    <span>Renamed <code key={1}>{propName}</code> to <code key={2}>{newkey}</code>.</span>);
             }}/>;
 
     return <RenderTree

@@ -4,6 +4,7 @@ import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from "../Hoverable";
 import {get, del} from '../../../mobXUtils';
 import {NewField} from "./NewField";
+import {execute} from "../../../services/CommandQueueService";
 
 @observer
 export class RenderArray extends Component {
@@ -29,8 +30,16 @@ export class RenderArray extends Component {
         const newField = this.state.showNewField &&
             <Hoverable>
                 <NewField
-                    arr={get(obj, propName)}
-                    onEnd={() => this.setState({ showNewField: false })}/>
+                    preamble={get(obj, propName).length}
+                    onChange={newObj => {
+                        this.setState({ showNewField: false });
+
+                        execute(
+                            () => get(obj, propName).push(newObj),
+                            () => get(obj, propName).pop(),
+                            <span>Pushed <code key={1}>{JSON.stringify(newObj)}</code> to <code key={2}>{propName}</code>.</span>);
+                    }}
+                    onError={() => this.setState({showNewField: false})}/>
             </Hoverable>;
 
 

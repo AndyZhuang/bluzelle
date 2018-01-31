@@ -36,7 +36,7 @@ export class RenderObject extends Component {
                         execute(
                             () => get(obj, propName).set(key, val),
                             () => get(obj, propName).delete(key),
-                            `New field ${key}`);
+                            <span>New field <code key={1}>{key}</code> is <code key={2}>{val}</code>.</span>);
                         }}
                     onError={() => this.setState({showNewField: false})}/>
             </Hoverable>;

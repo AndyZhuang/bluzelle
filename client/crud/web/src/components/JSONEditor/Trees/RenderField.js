@@ -18,7 +18,7 @@ export const RenderField = ({ obj, propName, preamble, editing, onChange, hoveri
                 execute(
                     () => obj.set(propName, newVal),
                     () => obj.set(propName, oldVal),
-                    `Set field ${propName} to ${v}`);
+                    <span>Set <code key={1}>{propName}</code> to <code key={2}>{v}</code>.</span>);
             }}
             val={JSON.stringify(get(obj, propName))}
             validateJSON={true}
