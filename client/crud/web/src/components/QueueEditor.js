@@ -1,4 +1,4 @@
-import {commandQueue, currentPosition} from "../services/CommandQueueService";
+import {commandQueue, undo, redo, canUndo, canRedo, currentPosition} from "../services/CommandQueueService";
 
 @observer
 export class QueueEditor extends Component {
@@ -6,6 +6,17 @@ export class QueueEditor extends Component {
         return (
             <div>
                 <h2>Command Queue</h2>
+
+                <BS.ButtonGroup>
+                    <BS.Button onClick={undo}
+                        disabled={!canUndo()}>
+                        <BS.Glyphicon glyph='chevron-left'/>
+                    </BS.Button>
+                    <BS.Button onClick={redo}
+                        disabled={!canRedo()}>
+                        <BS.Glyphicon glyph='chevron-right'/>
+                    </BS.Button>
+                </BS.ButtonGroup>
 
                 <div style={{fontFamily: 'monospace'}}>
                     <BS.ListGroup>

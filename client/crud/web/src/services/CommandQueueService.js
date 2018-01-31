@@ -3,7 +3,6 @@ import {isObservableArray} from "mobx/lib/mobx";
 export const commandQueue = observable([]);
 export const currentPosition = observable(0);
 
-
 const revert = targetPosition => {
     const cp = currentPosition.get();
     
@@ -24,6 +23,18 @@ commandQueue.push({
     message: 'Initial state',
     revert: revert.bind(this, 0)
 });
+
+
+export const canUndo = () => currentPosition.get() > 0;
+
+export const undo = () =>
+    canUndo() && revert(currentPosition.get() - 1);
+
+
+export const canRedo = () => currentPosition.get() < commandQueue.length - 1;
+
+export const redo = () =>
+    canRedo() && revert(currentPosition.get() + 1);
 
 
 // Caution: the consecutive execution of undoIt and doIt
