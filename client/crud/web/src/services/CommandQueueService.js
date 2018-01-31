@@ -1,3 +1,5 @@
+import {isObservableArray} from "mobx/lib/mobx";
+
 export const commandQueue = observable([]);
 export const currentPosition = observable(0);
 
@@ -44,3 +46,22 @@ export const execute = (doIt, undoIt, message) => {
 
 const deleteFuture = () =>
     (currentPosition.get() >= 0) && (commandQueue.length = currentPosition.get());
+
+
+export const del = (obj, propName) => {
+    if(isObservableArray(obj)) {
+        const old = obj[propName];
+
+        execute(
+            () => obj.splice(propName, 1),
+            () => obj.splice(propName, 0, old),
+            <span>Deleted index <code key={1}>{propName}</code>.</span>);
+    } else {
+        const old = obj.get(propName);
+
+        execute(
+            () => obj.delete(propName),
+            () => obj.set(propName, old),
+            <span>Deleted key <code key={1}>{propName}</code>.</span>);
+    }
+};

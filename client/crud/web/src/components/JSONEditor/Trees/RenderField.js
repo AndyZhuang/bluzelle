@@ -1,7 +1,7 @@
-import {del, get, observableMapRecursive} from "../../../mobXUtils";
+import {get, observableMapRecursive} from "../../../mobXUtils";
 import {EditableField} from "../../EditableField";
 import {Delete} from "../Buttons";
-import {execute} from "../../../services/CommandQueueService";
+import {execute, del} from "../../../services/CommandQueueService";
 
 export const RenderField = ({ obj, propName, preamble, editing, onChange, hovering }) => (
     <div>

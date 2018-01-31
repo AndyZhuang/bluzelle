@@ -1,10 +1,10 @@
 import {Collapsible} from "../Collapsible";
 import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from '../Hoverable.js';
-import {get, del} from '../../../mobXUtils';
+import {get} from '../../../mobXUtils';
 import {RenderTreeWithEditableKey} from "./RenderTreeWithEditableKey";
 import {NewField} from "./NewField";
-import {execute} from '../../../services/CommandQueueService'
+import {execute, del} from '../../../services/CommandQueueService'
 
 @observer
 export class RenderObject extends Component {

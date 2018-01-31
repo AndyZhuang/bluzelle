@@ -2,9 +2,9 @@ import {RenderTree} from "../Trees/RenderTree";
 import {Collapsible} from "../Collapsible";
 import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from "../Hoverable";
-import {get, del} from '../../../mobXUtils';
+import {get} from '../../../mobXUtils';
 import {NewField} from "./NewField";
-import {execute} from "../../../services/CommandQueueService";
+import {execute, del} from "../../../services/CommandQueueService";
 
 @observer
 export class RenderArray extends Component {
