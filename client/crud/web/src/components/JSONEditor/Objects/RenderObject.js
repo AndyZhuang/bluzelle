@@ -33,11 +33,11 @@ export class RenderObject extends Component {
                     onChange={(key, val) => {
                         this.setState({showNewField: false});
 
-                        execute(
-                            () => get(obj, propName).set(key, val),
-                            () => get(obj, propName).delete(key),
-                            <span>New field <code key={1}>{key}</code>: <code key={2}>{val}</code>.</span>);
-                        }}
+                        execute({
+                            doIt: () => get(obj, propName).set(key, val),
+                            undoIt: () => get(obj, propName).delete(key),
+                            message: <span>New field <code key={1}>{key}</code>: <code key={2}>{JSON.stringify(val)}</code>.</span>});
+                    }}
                     onError={() => this.setState({showNewField: false})}/>
             </Hoverable>;
 

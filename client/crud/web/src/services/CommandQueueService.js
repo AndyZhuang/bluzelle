@@ -38,10 +38,10 @@ export const redo = () =>
 
 
 // Caution: the consecutive execution of undoIt and doIt
-// must return the original object, or else subsequent redos
+// must keep track of the original child object, or else subsequent redos
 // will not be bound correctly.
 
-export const execute = (doIt, undoIt, message) => {
+export const execute = ({ doIt, undoIt, message }) => {
     doIt();
 
     currentPosition.set(currentPosition.get() + 1);
@@ -63,16 +63,16 @@ export const del = (obj, propName) => {
     if(isObservableArray(obj)) {
         const old = obj[propName];
 
-        execute(
-            () => obj.splice(propName, 1),
-            () => obj.splice(propName, 0, old),
-            <span>Deleted index <code key={1}>{propName}</code>.</span>);
+        execute({
+            doIt: () => obj.splice(propName, 1),
+            undoIt: () => obj.splice(propName, 0, old),
+            message: <span>Deleted index <code key={1}>{propName}</code>.</span>});
     } else {
         const old = obj.get(propName);
 
-        execute(
-            () => obj.delete(propName),
-            () => obj.set(propName, old),
-            <span>Deleted key <code key={1}>{propName}</code>.</span>);
+        execute({
+            doIt: () => obj.delete(propName),
+            undoIt: () => obj.set(propName, old),
+            message: <span>Deleted key <code key={1}>{propName}</code>.</span>});
     }
 };

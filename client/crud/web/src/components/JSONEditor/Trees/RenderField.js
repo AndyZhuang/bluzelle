@@ -15,10 +15,10 @@ export const RenderField = ({ obj, propName, preamble, editing, onChange, hoveri
                 const oldVal = get(obj, propName);
                 const newVal = observableMapRecursive(JSON.parse(v));
 
-                execute(
-                    () => obj.set(propName, newVal),
-                    () => obj.set(propName, oldVal),
-                    <span>Set <code key={1}>{propName}</code> to <code key={2}>{v}</code>.</span>);
+                execute({
+                    doIt: () => obj.set(propName, newVal),
+                    undoIt: () => obj.set(propName, oldVal),
+                    message: <span>Set <code key={1}>{propName}</code> to <code key={2}>{v}</code>.</span>});
             }}
             val={JSON.stringify(get(obj, propName))}
             validateJSON={true}

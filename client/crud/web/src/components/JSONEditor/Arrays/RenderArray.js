@@ -34,10 +34,10 @@ export class RenderArray extends Component {
                     onChange={newObj => {
                         this.setState({ showNewField: false });
 
-                        execute(
-                            () => get(obj, propName).push(newObj),
-                            () => get(obj, propName).pop(),
-                            <span>Pushed <code key={1}>{JSON.stringify(newObj)}</code> to <code key={2}>{propName}</code>.</span>);
+                        execute({
+                            doIt: () => get(obj, propName).push(newObj),
+                            undoIt: () => get(obj, propName).pop(),
+                            message: <span>Pushed <code key={1}>{JSON.stringify(newObj)}</code> to <code key={2}>{propName}</code>.</span>});
                     }}
                     onError={() => this.setState({showNewField: false})}/>
             </Hoverable>;
