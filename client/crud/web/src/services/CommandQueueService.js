@@ -1,4 +1,5 @@
 import {isObservableArray} from "mobx/lib/mobx";
+import {extend} from 'lodash';
 
 export const commandQueue = observable([]);
 export const currentPosition = observable(0);
@@ -21,7 +22,8 @@ const revert = targetPosition => {
 
 commandQueue.push({
     message: 'Initial state',
-    revert: revert.bind(this, 0)
+    revert: revert.bind(this, 0),
+    onSave: () => {}
 });
 
 
@@ -49,6 +51,7 @@ export const execute = (onSave, { doIt, undoIt, message }) => {
 
     commandQueue.push({
         revert: revert.bind(this, currentPosition.get()),
+        onSave,
         doIt,
         undoIt,
         message
@@ -75,4 +78,18 @@ export const del = (execute, obj, propName) => {
             undoIt: () => obj.set(propName, old),
             message: <span>Deleted key <code key={1}>{propName}</code>.</span>});
     }
+};
+
+
+export const save = () => {
+
+    const newKeys = {};
+
+    commandQueue.map(command => {
+        console.log('onSave:', command.onSave());
+        extend(newKeys, command.onSave());
+    });
+
+    return newKeys;
+
 };

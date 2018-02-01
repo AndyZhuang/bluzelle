@@ -1,4 +1,4 @@
-import {commandQueue, undo, redo, canUndo, canRedo, currentPosition} from "../services/CommandQueueService";
+import {commandQueue, undo, redo, canUndo, canRedo, save, currentPosition} from "../services/CommandQueueService";
 
 @observer
 export class QueueEditor extends Component {
@@ -17,6 +17,10 @@ export class QueueEditor extends Component {
                         <BS.Glyphicon glyph='chevron-right'/>
                     </BS.Button>
                 </BS.ButtonGroup>
+
+                <BS.Button onClick={() => console.log(save())}>
+                    <BS.Glyphicon glyph='floppy-save'/>
+                </BS.Button>
 
                 <div style={{fontFamily: 'monospace'}}>
                     <BS.ListGroup>

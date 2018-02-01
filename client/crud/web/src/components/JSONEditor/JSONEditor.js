@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 export class JSONEditor extends Component {
 
     getChildContext() {
-        return { execute: execute.bind(null, this.onSave.bind(this)) };
+        const {obj, propName} = this.props;
+
+        return { execute: execute.bind(null, this.onSave.bind(null, obj, propName)) };
     }
 
-    onSave() {
+    onSave(obj, propName) {
         return {
-            key: JSON.stringify(this.props.obj)
+            [propName]: "o" + JSON.stringify(obj.get(propName))
         };
     }
 
