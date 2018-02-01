@@ -4,7 +4,8 @@ import {Hoverable} from '../Hoverable.js';
 import {get} from '../../../mobXUtils';
 import {RenderTreeWithEditableKey} from "./RenderTreeWithEditableKey";
 import {NewField} from "./NewField";
-import {execute, del} from '../../../services/CommandQueueService'
+import {del} from '../../../services/CommandQueueService';
+import PropTypes from 'prop-types';
 
 @observer
 export class RenderObject extends Component {
@@ -22,7 +23,7 @@ export class RenderObject extends Component {
         const buttons = hovering &&
             <React.Fragment>
                 <Plus onClick={() => this.setState({showNewField: true})}/>
-                {isRoot || <Delete onClick={() => del(obj, propName)}/>}
+                {isRoot || <Delete onClick={() => del(this.context.execute, obj, propName)}/>}
                 <Edit onClick={onEdit}/>
             </React.Fragment>;
 
@@ -33,7 +34,7 @@ export class RenderObject extends Component {
                     onChange={(key, val) => {
                         this.setState({showNewField: false});
 
-                        execute({
+                        this.context.execute({
                             doIt: () => get(obj, propName).set(key, val),
                             undoIt: () => get(obj, propName).delete(key),
                             message: <span>New field <code key={1}>{key}</code>: <code key={2}>{JSON.stringify(val)}</code>.</span>});
@@ -61,3 +62,7 @@ export class RenderObject extends Component {
         );
     }
 }
+
+RenderObject.contextTypes = {
+    execute: PropTypes.func
+};

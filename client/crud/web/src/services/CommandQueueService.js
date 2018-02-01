@@ -41,7 +41,7 @@ export const redo = () =>
 // must keep track of the original child object, or else subsequent redos
 // will not be bound correctly.
 
-export const execute = ({ doIt, undoIt, message }) => {
+export const execute = (onSave, { doIt, undoIt, message }) => {
     doIt();
 
     currentPosition.set(currentPosition.get() + 1);
@@ -59,7 +59,7 @@ const deleteFuture = () =>
     (currentPosition.get() >= 0) && (commandQueue.length = currentPosition.get());
 
 
-export const del = (obj, propName) => {
+export const del = (execute, obj, propName) => {
     if(isObservableArray(obj)) {
         const old = obj[propName];
 

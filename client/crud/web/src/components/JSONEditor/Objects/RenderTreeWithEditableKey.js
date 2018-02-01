@@ -1,15 +1,15 @@
 import {EditableField} from "../../EditableField";
 import {RenderTree} from "../Trees/RenderTree";
-import {execute} from "../../../services/CommandQueueService";
+import PropTypes from 'prop-types';
 
-export const RenderTreeWithEditableKey = ({obj, propName, ...props}) => {
+export const RenderTreeWithEditableKey = ({obj, propName, ...props}, context) => {
     const preamble =
         <EditableField
             val={propName}
             renderVal={val => <span style={{color: 'navy'}}>{val}</span>}
             onChange={newkey => {
 
-                execute({
+                context.execute({
                     doIt: () => {
                         const oldval = obj.get(propName);
                         obj.delete(propName);
@@ -28,4 +28,9 @@ export const RenderTreeWithEditableKey = ({obj, propName, ...props}) => {
         propName={propName}
         preamble={preamble}
         {...props}/>;
+};
+
+
+RenderTreeWithEditableKey.contextTypes = {
+    execute: PropTypes.func
 };

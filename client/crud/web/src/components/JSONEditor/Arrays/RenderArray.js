@@ -4,7 +4,8 @@ import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from "../Hoverable";
 import {get} from '../../../mobXUtils';
 import {NewField} from "./NewField";
-import {execute, del} from "../../../services/CommandQueueService";
+import {del} from "../../../services/CommandQueueService";
+import PropTypes from 'prop-types';
 
 @observer
 export class RenderArray extends Component {
@@ -22,7 +23,7 @@ export class RenderArray extends Component {
         const buttons = hovering &&
             <React.Fragment>
                 <Plus onClick={() => this.setState({ showNewField: true })}/>
-                {isRoot || <Delete onClick={() => del(obj, propName)}/>}
+                {isRoot || <Delete onClick={() => del(this.context.execute, obj, propName)}/>}
                 <Edit onClick={onEdit}/>
             </React.Fragment>;
 
@@ -34,7 +35,7 @@ export class RenderArray extends Component {
                     onChange={newObj => {
                         this.setState({ showNewField: false });
 
-                        execute({
+                        this.context.execute({
                             doIt: () => get(obj, propName).push(newObj),
                             undoIt: () => get(obj, propName).pop(),
                             message: <span>Pushed <code key={1}>{JSON.stringify(newObj)}</code> to <code key={2}>{propName}</code>.</span>});
@@ -61,3 +62,7 @@ export class RenderArray extends Component {
         </Collapsible>;
     }
 }
+
+RenderArray.contextTypes = {
+    execute: PropTypes.func
+};

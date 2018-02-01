@@ -1,9 +1,10 @@
 import {get, observableMapRecursive} from "../../../mobXUtils";
 import {EditableField} from "../../EditableField";
 import {Delete} from "../Buttons";
-import {execute, del} from "../../../services/CommandQueueService";
+import {del} from "../../../services/CommandQueueService";
+import PropTypes from 'prop-types';
 
-export const RenderField = ({ obj, propName, preamble, editing, onChange, hovering }) => (
+export const RenderField = ({ obj, propName, preamble, editing, onChange, hovering }, context) => (
     <div>
         {preamble && <span style={{ marginRight: 5 }}>{preamble}:</span>}
 
@@ -15,7 +16,7 @@ export const RenderField = ({ obj, propName, preamble, editing, onChange, hoveri
                 const oldVal = get(obj, propName);
                 const newVal = observableMapRecursive(JSON.parse(v));
 
-                execute({
+                context.execute({
                     doIt: () => obj.set(propName, newVal),
                     undoIt: () => obj.set(propName, oldVal),
                     message: <span>Set <code key={1}>{propName}</code> to <code key={2}>{v}</code>.</span>});
@@ -25,9 +26,13 @@ export const RenderField = ({ obj, propName, preamble, editing, onChange, hoveri
             renderVal={v =>
                 <span style={{ color: colorFromType(v) }}>{v}</span> }/>
 
-        { hovering && <Delete onClick={ () => del(obj, propName) }/> }
+        { hovering && <Delete onClick={ () => del(context.execute, obj, propName) }/> }
     </div>
 );
+
+RenderField.contextTypes = {
+    execute: PropTypes.func
+};
 
 
 const colorTypeMap = {
