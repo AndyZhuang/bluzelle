@@ -71,7 +71,8 @@ export class EditableField extends Component {
                       </FormGroup>
                   </Form>
                   : <span style={{
-                      textDecoration: this.state.hovering ? 'underline' : 'none'
+                      textDecoration: this.state.hovering ? 'underline' : 'none',
+                      cursor: 'pointer'
                   }}
                           onMouseOver={() => this.setState({hovering: true})}
                           onMouseLeave={() => this.setState({hovering: false})}>
