@@ -24,8 +24,9 @@ export class Main extends Component {
 
         return (
             <ReflexContainer style={{height: '100%'}}>
-                <ReflexFixed style={{ marginBottom: 15 }}>
-                   <Header/>
+                <ReflexFixed>
+                    <Header/>
+                    <hr/>
                 </ReflexFixed>
                 <ReflexElement flex={1}>
                     <ReflexContainer orientation='vertical'>
@@ -37,13 +38,13 @@ export class Main extends Component {
                             <KeyList
                                 obj={obj}
                                 selected={selected}
-                                onSelect={key => this.setState({ selected: key })}/>
+                                onSelect={key => this.setState({selected: key})}/>
                         </ReflexElement>
                         <ReflexSplitter/>
                         <ReflexElement>
                             {
                                 selected !== null &&
-                                    <Editor keyData={obj.get(selected)} keyName={selected}/>
+                                <Editor keyData={obj.get(selected)} keyName={selected}/>
                             }
                         </ReflexElement>
                     </ReflexContainer>

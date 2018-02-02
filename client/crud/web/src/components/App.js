@@ -4,7 +4,7 @@ import DevTools from 'mobx-react-devtools';
 
 export const App = () => (
     <div style={{height: '100%'}}>
-        <DevTools/>
+        {/*<DevTools/>*/}
         <HashRouter>
             <Route component={Main} />
         </HashRouter>
