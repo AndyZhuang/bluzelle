@@ -1,20 +1,44 @@
-import {JSONEditor} from "./JSONEditor";
+import {RenderTree} from "./Trees/RenderTree";
 import {RenderObject} from "./Objects/RenderObject";
 import {RenderArray} from "./Arrays/RenderArray";
-import {RenderTree} from "./Trees/RenderTree";
 import {EditableField} from "../EditableField";
 import {Hoverable} from "./Hoverable";
 import {each} from 'lodash';
 import {observableMapRecursive as omr} from "../../mobXUtils";
 
-describe('JSONEditor', () => {
+
+// Here we are stubbing context.execute, which would be provided by
+// JSONEditor and is used for undoing/saving.
+import PropTypes from 'prop-types';
+
+class RenderTreeStubbed extends Component {
+
+    getChildContext() {
+        return {execute: ({ doIt }) => doIt()};
+    }
+
+    render() {
+        return <RenderTree {...this.props}/>
+    }
+}
+
+RenderTreeStubbed.childContextTypes = {
+    execute: PropTypes.func
+};
+
+
+
+
+
+
+describe('RenderTree', () => {
 
     describe('renders', () => {
 
         it('should render an object', () => {
 
             const obj = omr({ root: { a: 5 }});
-            const mWrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             expect(mWrapper
                 .find(RenderTree)
@@ -26,7 +50,7 @@ describe('JSONEditor', () => {
 
             const obj = omr({ root: { a: { b: 5 }}});
 
-            const mWrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             expect(mWrapper
                 .find(RenderTree)
@@ -54,7 +78,7 @@ describe('JSONEditor', () => {
             it(`should update a ${type} field`, () => {
 
                 const obj = omr({ root: { a: val1 }});
-                const mWrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+                const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
                 mWrapper.find(EditableField).filterWhere(el => el.text() === JSON.stringify(val1)).simulate('click');
                 mWrapper.find('input').simulate('change', { target: { value: JSON.stringify(val2) }});
@@ -67,7 +91,7 @@ describe('JSONEditor', () => {
         it('should delete a boolean field', () => {
 
             const obj = omr({ root: { a: true }});
-            const mWrapper = mount(<JSONEditor obj={obj} propName='root' isRoot={true}/>);
+            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root' isRoot={true}/>);
 
             // mWrapper.find('span').filter({ className: 'glyphicon glyphicon-pencil' })
 
@@ -95,7 +119,7 @@ describe('JSONEditor', () => {
                 }
             }});
 
-            const mWrapper = mount(<JSONEditor obj={obj} propName='root' isRoot={true}/>);
+            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root' isRoot={true}/>);
 
             mWrapper
                 .find(RenderTree)
@@ -127,21 +151,11 @@ describe('JSONEditor', () => {
 
         });
 
-
-        it('should update the root field given', () => {
-
-            const obj = omr({ root: { a: { b: 5 }}});
-
-            // const mWrapper = mount(<JSONEditor />);
-
-        });
-
-
         it('should update color based on validity-state of JSON', () => {
 
             const obj = omr({ root: { a: 5 }});
 
-            const mWrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             const ef = mWrapper
                 .find(EditableField)
@@ -172,7 +186,7 @@ describe('JSONEditor', () => {
                 somekey: 123
             }});
 
-            const wrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             wrapper.find(EditableField)
                 .filterWhere(el => el.text() === 'somekey')
@@ -194,7 +208,7 @@ describe('JSONEditor', () => {
 
             const obj = omr({ root: { a: 5 }});
 
-            const wrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             wrapper.find(RenderObject).simulate('mouseOver');
 
@@ -209,7 +223,7 @@ describe('JSONEditor', () => {
 
             const obj = omr({ root: {}});
 
-            const wrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             wrapper
                 .find(Hoverable)
@@ -239,7 +253,7 @@ describe('JSONEditor', () => {
 
             const obj = omr({ root: {}});
 
-            const wrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             wrapper
                 .find(Hoverable)
@@ -265,7 +279,7 @@ describe('JSONEditor', () => {
 
         it('should have a single input for new array values', () => {
             const obj = omr({ root: { arr: [] }});
-            const wrapper = mount(<JSONEditor obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
 
             wrapper.find(RenderArray)
                 .simulate('mouseOver');

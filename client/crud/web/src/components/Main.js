@@ -43,7 +43,7 @@ export class Main extends Component {
                         <ReflexElement>
                             {
                                 selected !== null &&
-                                    <Editor obj={obj} propName={selected}/>
+                                    <Editor keyData={obj.get(selected)} keyName={selected}/>
                             }
                         </ReflexElement>
                     </ReflexContainer>

@@ -43,7 +43,7 @@ export const redo = () =>
 // must keep track of the original child object, or else subsequent redos
 // will not be bound correctly.
 
-export const execute = (onSave, { doIt, undoIt, message }) => {
+export const execute = ({ doIt, undoIt, onSave = () => {}, message }) => {
     doIt();
 
     currentPosition.set(currentPosition.get() + 1);
@@ -86,7 +86,6 @@ export const save = () => {
     const newKeys = {};
 
     commandQueue.map(command => {
-        console.log('onSave:', command.onSave());
         extend(newKeys, command.onSave());
     });
 
