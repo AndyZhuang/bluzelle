@@ -8,7 +8,9 @@ const revert = targetPosition => {
     const cp = currentPosition.get();
     
     if (cp > targetPosition) {
-        commandQueue[cp].undoIt();
+        const prev = commandQueue[cp-1];
+
+        commandQueue[cp].undoIt(prev);
         currentPosition.set(cp - 1)
         revert(targetPosition);
     }
@@ -82,7 +84,6 @@ export const del = (execute, obj, propName) => {
 
 
 export const save = () => {
-
     const newKeys = {};
 
     commandQueue.map(command => {
@@ -90,5 +91,4 @@ export const save = () => {
     });
 
     return newKeys;
-
 };

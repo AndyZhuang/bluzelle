@@ -1,4 +1,7 @@
 import {EditableField} from "../EditableField";
+import {getPrefix} from "../Editor";
+import {PREFIX as jsonPrefix} from '../JSONEditor';
+import {PREFIX as textPrefix} from '../PlainTextEditor';
 
 @observer
 export class KeyList extends Component {
@@ -95,20 +98,15 @@ export class KeyList extends Component {
     }
 }
 
-const objIcon = obj => (
+const objIcon = keyData => (
     <span style={{display: 'inline-block', width: 25}}>
-        {
-            'isObjectType' ?
-                (
-                    <span style={{
-                        fontWeight: 'bold',
-                        fontFamily: 'monospace'
-                    }}>{'{}'}</span>
-                ) : (
-                    <BS.Glyphicon glyph={
-                        'isBinaryType' ? 'open-file' : 'font'
-                    }/>
-                )
-        }
+        { getPrefix(keyData) === jsonPrefix &&
+            <span style={{
+                fontWeight: 'bold',
+                fontFamily: 'monospace'
+            }}>{'{}'}</span> }
+
+        { getPrefix(keyData) === textPrefix &&
+            <BS.Glyphicon glyph='font'/> }
     </span>
 );
