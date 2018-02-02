@@ -30,14 +30,14 @@ export class Main extends Component {
                 <ReflexElement flex={1}>
                     <ReflexContainer orientation='vertical'>
                         <ReflexElement flex={0.4}>
+                            <QueueEditor/>
+
+                            <hr/>
+
                             <KeyList
                                 obj={obj}
                                 selected={selected}
                                 onSelect={key => this.setState({ selected: key })}/>
-
-                            <hr/>
-
-                            <QueueEditor/>
                         </ReflexElement>
                         <ReflexSplitter/>
                         <ReflexElement>
