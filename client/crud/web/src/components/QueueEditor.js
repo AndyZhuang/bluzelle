@@ -11,29 +11,17 @@ export class QueueEditor extends Component {
     render() {
 
         const undoButton =
-            <BS.OverlayTrigger
-                placement="bottom"
-                overlay={
-                    <BS.Tooltip id="undo-tooltip">Undo</BS.Tooltip>
-                }>
-                <BS.Button onClick={undo}
-                           disabled={!canUndo()}>
+            <BS.Button onClick={undo}
+                       disabled={!canUndo()}>
 
-                    <BS.Glyphicon glyph='chevron-left'/>
-                </BS.Button>
-            </BS.OverlayTrigger>;
+                <BS.Glyphicon glyph='chevron-left'/>
+            </BS.Button>;
 
         const redoButton =
-            <BS.OverlayTrigger
-                placement="bottom"
-                overlay={
-                    <BS.Tooltip id="redo-tooltip">Redo</BS.Tooltip>
-                }>
-                <BS.Button onClick={redo}
-                           disabled={!canRedo()}>
-                    <BS.Glyphicon glyph='chevron-right'/>
-                </BS.Button>
-            </BS.OverlayTrigger>;
+            <BS.Button onClick={redo}
+                       disabled={!canRedo()}>
+                <BS.Glyphicon glyph='chevron-right'/>
+            </BS.Button>;
 
         const undoRedo =
             <BS.ButtonGroup style={{marginRight: 10}}>
@@ -46,8 +34,7 @@ export class QueueEditor extends Component {
                 <BS.Tooltip id="list-tooltip">History</BS.Tooltip>
             }>
                 <BS.Button style={{marginRight: 10}}
-                           onClick={() => this.setState({show: true})}
-                           disabled={this.state.show}>
+                           onClick={() => this.setState({show: true})}>
                     <BS.Glyphicon glyph='list'/>
                 </BS.Button>
             </BS.OverlayTrigger>;

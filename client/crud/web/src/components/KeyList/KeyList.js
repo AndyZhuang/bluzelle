@@ -1,5 +1,6 @@
 import {EditableField} from "../EditableField";
 import {getPrefix} from "../Editor";
+import {execute} from "../../services/CommandQueueService";
 import {PREFIX as jsonPrefix} from '../JSONEditor';
 import {PREFIX as textPrefix} from '../PlainTextEditor';
 
