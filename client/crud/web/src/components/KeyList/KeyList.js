@@ -41,8 +41,15 @@ export class KeyList extends Component {
                     onChange={newkey => {
 
                         const old = obj.get(key);
+                        const onSave = savedKeys => ({
+                            [newkey]: savedKeys[key] || old.get('bytearray'),
+                            [key]: 'deleted'});
+                        const message = <span>Renamed <code key={1}>{key}</code> to <code key={2}>{newkey}</code>.</span>;
 
                         if(selected === key) {
+
+                            // This execution changes the selection to follow the new key name while the one in the
+                            // else block does not.
 
                             this.context.execute({
                                 doIt: () => {
@@ -59,11 +66,8 @@ export class KeyList extends Component {
                                         onSelect(key);
                                     });
                                 },
-                                onSave: (savedKeys) => ({
-                                    [newkey]: savedKeys[key] || old.get('bytearray'),
-                                    [key]: 'deleted'}),
-                                message: <span>Renamed <code key={1}>{key}</code> to <code
-                                    key={2}>{newkey}</code>.</span>
+                                onSave,
+                                message
                             });
 
                         } else {
@@ -77,11 +81,8 @@ export class KeyList extends Component {
                                     obj.delete(newkey);
                                     obj.set(key, old);
                                 },
-                                onSave: (savedKeys) => ({
-                                    [newkey]: savedKeys[key] || old.get('bytearray'),
-                                    [key]: 'deleted'}),
-                                message: <span>Renamed <code key={1}>{key}</code> to <code
-                                    key={2}>{newkey}</code>.</span>
+                                onSave,
+                                message
                             });
 
                         }
