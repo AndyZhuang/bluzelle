@@ -13,7 +13,6 @@ export class PlainTextEditor extends Component {
         const {keyData} = this.props;
 
         this.state = {
-            val: byteArrayToStr(getRaw(keyData)),
             oldVal: byteArrayToStr(getRaw(keyData))
         };
     }
@@ -21,19 +20,20 @@ export class PlainTextEditor extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const {keyData, keyName} = this.props;
-        const currentVal = this.state.val;
+        const newVal = this.props.keyData.get('interpreted');
         const oldVal = this.state.oldVal;
 
+        const {keyName} = this.props;
+
+
         execute({
-            doIt: () => this.setState({val: currentVal}),
-            undoIt: prev => prev.doIt ? prev.doIt()
-                : this.setState({val: byteArrayToStr(getRaw(keyData))}),
-            onSave: this.onSave.bind(this, currentVal),
+            doIt: () => this.props.keyData.set('interpreted', newVal),
+            undoIt: () => this.props.keyData.set('interpreted', oldVal),
+            onSave: this.onSave.bind(this, newVal),
             message: <span>Updated <code key={1}>{keyName}</code>.</span>
         });
 
-        this.setState({oldVal: currentVal});
+        this.setState({oldVal: newVal});
     }
 
     onSave(interpreted) {
@@ -43,17 +43,23 @@ export class PlainTextEditor extends Component {
     }
 
     handleChange(e) {
-        this.setState({val: e.target.value});
+        this.props.keyData.set('interpreted', e.target.value);
     }
 
     render() {
+
+        const {keyData} = this.props;
+
+        keyData.has('interpreted')
+            || keyData.set('interpreted', byteArrayToStr(getRaw(keyData)));
+
         return (
             <div style={{height: '100%'}}>
                 <BS.Form style={{height: '100%'}}>
                     <BS.FormControl
                         style={{height: '100%', resize: 'none'}}
                         componentClass="textarea"
-                        value={this.state.val}
+                        value={keyData.get('interpreted')}
                         onChange={this.handleChange.bind(this)}
                         onBlur={this.onSubmit.bind(this)}/>
                 </BS.Form>
