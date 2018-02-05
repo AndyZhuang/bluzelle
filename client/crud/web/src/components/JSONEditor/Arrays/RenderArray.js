@@ -4,9 +4,9 @@ import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from "../Hoverable";
 import {get} from '../../../util/mobXUtils';
 import {NewField} from "./NewField";
-import {del} from "../../../services/CommandQueueService";
-import PropTypes from 'prop-types';
+import {del, executeContext} from "../../../services/CommandQueueService";
 
+@executeContext
 @observer
 export class RenderArray extends Component {
     constructor(props) {
@@ -62,7 +62,3 @@ export class RenderArray extends Component {
         </Collapsible>;
     }
 }
-
-RenderArray.contextTypes = {
-    execute: PropTypes.func
-};

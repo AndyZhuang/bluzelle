@@ -4,9 +4,9 @@ import {Hoverable} from '../Hoverable.js';
 import {get} from '../../../util/mobXUtils';
 import {RenderTreeWithEditableKey} from "./RenderTreeWithEditableKey";
 import {NewField} from "./NewField";
-import {del} from '../../../services/CommandQueueService';
-import PropTypes from 'prop-types';
+import {del, executeContext} from '../../../services/CommandQueueService';
 
+@executeContext
 @observer
 export class RenderObject extends Component {
     constructor(props) {
@@ -62,7 +62,3 @@ export class RenderObject extends Component {
         );
     }
 }
-
-RenderObject.contextTypes = {
-    execute: PropTypes.func
-};

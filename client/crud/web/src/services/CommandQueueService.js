@@ -1,5 +1,6 @@
 import {isObservableArray} from "mobx/lib/mobx";
 import {extend} from 'lodash';
+import PropTypes from 'prop-types';
 
 export const commandQueue = observable([]);
 export const currentPosition = observable(0);
@@ -59,6 +60,12 @@ export const execute = ({ doIt, undoIt, onSave = () => {}, message }) => {
         message
     });
 };
+
+export const executeContext = f => {
+    f.contextTypes = { execute: PropTypes.func };
+    return f;
+};
+
 
 const deleteFuture = () =>
     (currentPosition.get() >= 0) && (commandQueue.length = currentPosition.get());

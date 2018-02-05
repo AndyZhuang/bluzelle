@@ -1,39 +1,36 @@
 import {get, observableMapRecursive} from "../../../util/mobXUtils";
 import {EditableField} from "../../EditableField";
 import {Delete} from "../Buttons";
-import {del} from "../../../services/CommandQueueService";
-import PropTypes from 'prop-types';
+import {del, executeContext} from "../../../services/CommandQueueService";
 
-export const RenderField = ({ obj, propName, preamble, editing, onChange, hovering }, context) => (
-    <div>
-        {preamble && <span style={{ marginRight: 5 }}>{preamble}:</span>}
+export const RenderField =
+    executeContext(({obj, propName, preamble, editing, onChange, hovering}, context) => (
 
-        <EditableField
-            active={editing}
-            onChange={v => {
-                onChange();
+        <div>
+            {preamble && <span style={{marginRight: 5}}>{preamble}:</span>}
 
-                const oldVal = get(obj, propName);
-                const newVal = observableMapRecursive(JSON.parse(v));
+            <EditableField
+                active={editing}
+                onChange={v => {
+                    onChange();
 
-                context.execute({
-                    doIt: () => obj.set(propName, newVal),
-                    undoIt: () => obj.set(propName, oldVal),
-                    message: <span>Set <code key={1}>{propName}</code> to <code key={2}>{v}</code>.</span>});
-            }}
-            val={JSON.stringify(get(obj, propName))}
-            validateJSON={true}
-            renderVal={v =>
-                <span style={{ color: colorFromType(v) }}>{v}</span> }/>
+                    const oldVal = get(obj, propName);
+                    const newVal = observableMapRecursive(JSON.parse(v));
 
-        { hovering && <Delete onClick={ () => del(context.execute, obj, propName) }/> }
-    </div>
-);
+                    context.execute({
+                        doIt: () => obj.set(propName, newVal),
+                        undoIt: () => obj.set(propName, oldVal),
+                        message: <span>Set <code key={1}>{propName}</code> to <code key={2}>{v}</code>.</span>
+                    });
+                }}
+                val={JSON.stringify(get(obj, propName))}
+                validateJSON={true}
+                renderVal={v =>
+                    <span style={{color: colorFromType(v)}}>{v}</span>}/>
 
-RenderField.contextTypes = {
-    execute: PropTypes.func
-};
-
+            {hovering && <Delete onClick={() => del(context.execute, obj, propName)}/>}
+        </div>
+    ));
 
 const colorTypeMap = {
     string: 'blue',
