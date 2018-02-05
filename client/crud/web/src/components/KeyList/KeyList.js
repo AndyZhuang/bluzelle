@@ -30,11 +30,52 @@ export class KeyList extends Component {
                 <EditableField
                     val={key}
                     onChange={newkey => {
-                        const old = obj.get(key);
-                        obj.delete(key);
-                        obj.set(newkey, old);
 
-                        selected === key && onSelect(newkey);
+                        const old = obj.get(key);
+
+                        if(selected === key) {
+
+                            execute({
+                                doIt: () => {
+                                    onSelect(null, () => {
+                                        obj.delete(key);
+                                        obj.set(newkey, old);
+                                        onSelect(newkey);
+                                    });
+                                },
+                                undoIt: () => {
+                                    onSelect(null, () => {
+                                        obj.delete(newkey);
+                                        obj.set(key, old);
+                                        onSelect(key);
+                                    });
+                                },
+                                onSave: (savedKeys) => ({
+                                    [newkey]: savedKeys[key] || old.get('bytearray'),
+                                    [key]: 'deleted'}),
+                                message: <span>Renamed <code key={1}>{key}</code> to <code
+                                    key={2}>{newkey}</code>.</span>
+                            });
+
+                        } else {
+
+                            execute({
+                                doIt: () => {
+                                    obj.delete(key);
+                                    obj.set(newkey, old);
+                                },
+                                undoIt: () => {
+                                    obj.delete(newkey);
+                                    obj.set(key, old);
+                                },
+                                onSave: (savedKeys) => ({
+                                    [newkey]: savedKeys[key] || old.get('bytearray'),
+                                    [key]: 'deleted'}),
+                                message: <span>Renamed <code key={1}>{key}</code> to <code
+                                    key={2}>{newkey}</code>.</span>
+                            });
+
+                        }
                     }}/>
 
                 {
@@ -75,10 +116,25 @@ export class KeyList extends Component {
             <BS.Button
                 style={{color: 'red'}}
                 onClick={() => {
+
                     if (selected !== null) {
-                        onSelect(null);
-                        obj.delete(selected);
+                        const oldObj = obj.get(selected);
+
+                        execute({
+                            doIt: () => {
+                                onSelect(null, () => {
+                                    obj.delete(selected);
+                                });
+                            },
+                            undoIt: () => {
+                                obj.set(selected, oldObj);
+                                onSelect(selected);
+                            },
+                            onSave: () => ({[selected]: 'deleted'}),
+                            message: <span>Deleted <code key={1}>{selected}</code></span>
+                        });
                     }
+
                 }}>
                 <BS.Glyphicon glyph='remove'/>
             </BS.Button>;

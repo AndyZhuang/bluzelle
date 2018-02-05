@@ -87,7 +87,7 @@ export const save = () => {
     const newKeys = {};
 
     commandQueue.map(command => {
-        extend(newKeys, command.onSave());
+        extend(newKeys, command.onSave(newKeys));
     });
 
     return newKeys;

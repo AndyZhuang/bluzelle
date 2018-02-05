@@ -4,6 +4,7 @@ import {KeyList} from "./KeyList";
 import {Header} from "./Header";
 import 'bootstrap/dist/css/bootstrap.css';
 import {QueueEditor} from "./QueueEditor";
+import {execute} from "../services/CommandQueueService";
 
 @observer
 export class Main extends Component {
@@ -21,7 +22,7 @@ export class Main extends Component {
     render() {
 
         const {obj, selected} = this.state;
-
+        
         return (
             <ReflexContainer style={{height: '100%'}}>
                 <ReflexFixed>
@@ -38,7 +39,7 @@ export class Main extends Component {
                             <KeyList
                                 obj={obj}
                                 selected={selected}
-                                onSelect={key => this.setState({selected: key})}/>
+                                onSelect={(key, callback) => this.setState({selected: key}, callback)}/>
                         </ReflexElement>
                         <ReflexSplitter/>
                         <ReflexElement>
