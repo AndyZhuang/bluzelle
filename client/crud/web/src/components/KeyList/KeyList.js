@@ -1,9 +1,10 @@
 import {EditableField} from "../EditableField";
 import {getPrefix} from "../Editor";
-import {execute} from "../../services/CommandQueueService";
+import {executeContext} from "../../services/CommandQueueService";
 import {PREFIX as jsonPrefix} from '../JSONEditor';
 import {PREFIX as textPrefix} from '../PlainTextEditor';
 
+@executeContext
 @observer
 export class KeyList extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ export class KeyList extends Component {
         const {obj, selected, onSelect} = this.props;
 
 
-        const select = target => execute({
+        const select = target => this.context.execute({
             doIt: () => onSelect(target),
             undoIt: () => onSelect(selected),
             onSave: () => {},
@@ -43,7 +44,7 @@ export class KeyList extends Component {
 
                         if(selected === key) {
 
-                            execute({
+                            this.context.execute({
                                 doIt: () => {
                                     onSelect(null, () => {
                                         obj.delete(key);
@@ -67,7 +68,7 @@ export class KeyList extends Component {
 
                         } else {
 
-                            execute({
+                            this.context.execute({
                                 doIt: () => {
                                     obj.delete(key);
                                     obj.set(newkey, old);
@@ -128,7 +129,7 @@ export class KeyList extends Component {
                     if (selected !== null) {
                         const oldObj = obj.get(selected);
 
-                        execute({
+                        this.context.execute({
                             doIt: () => {
                                 onSelect(null, () => {
                                     obj.delete(selected);

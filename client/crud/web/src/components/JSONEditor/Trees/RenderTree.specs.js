@@ -1,37 +1,16 @@
-import {RenderTree} from "./Trees/RenderTree";
-import {RenderObject} from "./Objects/RenderObject";
-import {RenderArray} from "./Arrays/RenderArray";
-import {EditableField} from "../EditableField";
-import {Hoverable} from "./Hoverable";
-import {each} from 'lodash';
-import {observableMapRecursive as omr} from "../../util/mobXUtils";
-
-
-// Here we are stubbing context.execute, which would be provided by
-// JSONEditor and is used for undoing/saving.
-
-// TODO: replace with with enzyme built-in context option.
 import PropTypes from 'prop-types';
+import {RenderTree} from "./RenderTree";
+import {RenderObject} from "../Objects/RenderObject";
+import {RenderArray} from "../Arrays/RenderArray";
+import {EditableField} from "../../EditableField";
+import {Hoverable} from "../Hoverable";
+import {each} from 'lodash';
+import {observableMapRecursive as omr} from "../../../util/mobXUtils";
 
-class RenderTreeStubbed extends Component {
-
-    getChildContext() {
-        return {execute: ({ doIt }) => doIt()};
-    }
-
-    render() {
-        return <RenderTree {...this.props}/>
-    }
-}
-
-RenderTreeStubbed.childContextTypes = {
-    execute: PropTypes.func
+const context = {
+    context: {execute: ({doIt}) => doIt()},
+    childContextTypes: {execute: PropTypes.func}
 };
-
-
-
-
-
 
 describe('RenderTree', () => {
 
@@ -40,7 +19,7 @@ describe('RenderTree', () => {
         it('should render an object', () => {
 
             const obj = omr({ root: { a: 5 }});
-            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const mWrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             expect(mWrapper
                 .find(RenderTree)
@@ -52,7 +31,7 @@ describe('RenderTree', () => {
 
             const obj = omr({ root: { a: { b: 5 }}});
 
-            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const mWrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             expect(mWrapper
                 .find(RenderTree)
@@ -80,7 +59,7 @@ describe('RenderTree', () => {
             it(`should update a ${type} field`, () => {
 
                 const obj = omr({ root: { a: val1 }});
-                const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+                const mWrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
                 mWrapper.find(EditableField).filterWhere(el => el.text() === JSON.stringify(val1)).simulate('click');
                 mWrapper.find('input').simulate('change', { target: { value: JSON.stringify(val2) }});
@@ -93,9 +72,7 @@ describe('RenderTree', () => {
         it('should delete a boolean field', () => {
 
             const obj = omr({ root: { a: true }});
-            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root' isRoot={true}/>);
-
-            // mWrapper.find('span').filter({ className: 'glyphicon glyphicon-pencil' })
+            const mWrapper = mount(<RenderTree obj={obj} propName='root' isRoot={true}/>, {...context});
 
             mWrapper
                 .find(RenderObject)
@@ -121,7 +98,7 @@ describe('RenderTree', () => {
                 }
             }});
 
-            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root' isRoot={true}/>);
+            const mWrapper = mount(<RenderTree obj={obj} propName='root' isRoot={true}/>, {...context});
 
             mWrapper
                 .find(RenderTree)
@@ -157,7 +134,7 @@ describe('RenderTree', () => {
 
             const obj = omr({ root: { a: 5 }});
 
-            const mWrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const mWrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             const ef = mWrapper
                 .find(EditableField)
@@ -188,7 +165,7 @@ describe('RenderTree', () => {
                 somekey: 123
             }});
 
-            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             wrapper.find(EditableField)
                 .filterWhere(el => el.text() === 'somekey')
@@ -210,7 +187,7 @@ describe('RenderTree', () => {
 
             const obj = omr({ root: { a: 5 }});
 
-            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             wrapper.find(RenderObject).simulate('mouseOver');
 
@@ -225,7 +202,7 @@ describe('RenderTree', () => {
 
             const obj = omr({ root: {}});
 
-            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             wrapper
                 .find(Hoverable)
@@ -255,7 +232,7 @@ describe('RenderTree', () => {
 
             const obj = omr({ root: {}});
 
-            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             wrapper
                 .find(Hoverable)
@@ -281,7 +258,7 @@ describe('RenderTree', () => {
 
         it('should have a single input for new array values', () => {
             const obj = omr({ root: { arr: [] }});
-            const wrapper = mount(<RenderTreeStubbed obj={obj} propName='root'/>);
+            const wrapper = mount(<RenderTree obj={obj} propName='root'/>, {...context});
 
             wrapper.find(RenderArray)
                 .simulate('mouseOver');

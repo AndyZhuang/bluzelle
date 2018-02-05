@@ -19,12 +19,14 @@ describe('KeyList', () => {
         }
     }
 
-
-    // TODO: all components should use context.execute. We should mock execute here.
+    // Mock commandQueueService.
+    const context = {execute: ({doIt}) => doIt()};
 
     const findLabel = (wrapper, word) =>
         wrapper.find(BS.ListGroupItem)
             .filterWhere(el => el.text().includes(word));
+
+
 
     it('should be able to select a new key', () => {
 
@@ -34,7 +36,7 @@ describe('KeyList', () => {
             goodbye: textToKeyData("cruel world")
         });
 
-        const wrapper = mount(<KeyList obj={obj} onSelect={spy}/>);
+        const wrapper = mount(<KeyList obj={obj} onSelect={spy}/>, {context});
 
         findLabel(wrapper, 'hello').simulate('click');
 
@@ -49,7 +51,7 @@ describe('KeyList', () => {
         const obj = omr({ a: textToKeyData("2") });
 
         const wrapper = mount(
-            <KeyList obj={obj} selected='a' onSelect={spy}/>);
+            <KeyList obj={obj} selected='a' onSelect={spy}/>, {context});
 
         findLabel(wrapper, 'a').simulate('click');
 
@@ -62,7 +64,7 @@ describe('KeyList', () => {
 
         const obj = omr({ a: textToKeyData("2") });
 
-        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>);
+        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>, {context});
 
         findLabel(wrapper, 'a').simulate('click');
 
@@ -79,7 +81,7 @@ describe('KeyList', () => {
 
         const obj = omr({});
 
-        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>);
+        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>, {context});
 
         wrapper.find(BS.Button)
             .at(0)
@@ -100,7 +102,7 @@ describe('KeyList', () => {
 
         const obj = omr({});
 
-        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>);
+        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>, {context});
 
         wrapper.find(BS.Button)
             .at(0)

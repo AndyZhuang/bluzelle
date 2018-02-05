@@ -1,7 +1,6 @@
 import {isObservableArray} from "mobx/lib/mobx";
 import {extend} from 'lodash';
 import PropTypes from 'prop-types';
-import {App} from "../components/App";
 
 export const commandQueue = observable([]);
 export const currentPosition = observable(0);
