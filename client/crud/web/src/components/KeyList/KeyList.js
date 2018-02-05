@@ -17,10 +17,18 @@ export class KeyList extends Component {
     render() {
         const {obj, selected, onSelect} = this.props;
 
+
+        const select = target => execute({
+            doIt: () => onSelect(target),
+            undoIt: () => onSelect(selected),
+            onSave: () => {},
+            message: <span>Selected <code key={1}>{target}</code>.</span>
+        });
+
         const keyList = obj.keys().sort().map(key =>
             <BS.ListGroupItem
                 key={key}
-                onClick={() => selected === key ? onSelect(null) : onSelect(key)}
+                onClick={() => selected === key ? select(null) : select(key)}
                 active={selected === key}>
 
                 <span style={{display: 'inline-block', width: 25}}>
