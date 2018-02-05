@@ -1,4 +1,4 @@
-import {get, observableMapRecursive} from "../../../mobXUtils";
+import {get, observableMapRecursive} from "../../../util/mobXUtils";
 import {EditableField} from "../../EditableField";
 import {Delete} from "../Buttons";
 import {del} from "../../../services/CommandQueueService";

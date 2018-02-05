@@ -2,7 +2,7 @@ import {RenderTree} from "../Trees/RenderTree";
 import {Collapsible} from "../Collapsible";
 import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from "../Hoverable";
-import {get} from '../../../mobXUtils';
+import {get} from '../../../util/mobXUtils';
 import {NewField} from "./NewField";
 import {del} from "../../../services/CommandQueueService";
 import PropTypes from 'prop-types';

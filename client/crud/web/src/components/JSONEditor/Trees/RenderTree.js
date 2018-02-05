@@ -1,7 +1,7 @@
 import {RenderArray} from "../Arrays/RenderArray";
 import {RenderObject} from "../Objects/RenderObject";
 import {RenderField} from "./RenderField";
-import {get} from '../../../mobXUtils';
+import {get} from '../../../util/mobXUtils';
 import {isObservableArray} from 'mobx';
 import {Hoverable} from "../Hoverable";
 

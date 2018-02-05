@@ -2,7 +2,7 @@ import {RenderTree} from "./Trees/RenderTree";
 import {execute} from "../../services/CommandQueueService";
 import {pipe} from 'lodash/fp';
 import {getRaw, addPrefix} from "../Editor";
-import {observableMapRecursive as omr} from "../../mobXUtils";
+import {observableMapRecursive as omr} from "../../util/mobXUtils";
 import {byteArrayToStr, strToByteArray} from "../../util/encoding";
 import PropTypes from 'prop-types';
 

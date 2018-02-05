@@ -1,4 +1,4 @@
-import {observableMapRecursive} from "../../../mobXUtils";
+import {observableMapRecursive} from "../../../util/mobXUtils";
 import {EditableField} from "../../EditableField";
 
 export class NewField extends Component {

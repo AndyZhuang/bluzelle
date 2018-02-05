@@ -4,7 +4,7 @@ import {RenderArray} from "./Arrays/RenderArray";
 import {EditableField} from "../EditableField";
 import {Hoverable} from "./Hoverable";
 import {each} from 'lodash';
-import {observableMapRecursive as omr} from "../../mobXUtils";
+import {observableMapRecursive as omr} from "../../util/mobXUtils";
 
 
 // Here we are stubbing context.execute, which would be provided by

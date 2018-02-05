@@ -1,4 +1,4 @@
-import {observableMapRecursive as omr} from "../../mobXUtils";
+import {observableMapRecursive as omr} from "../../util/mobXUtils";
 import {PlainTextEditor} from "./PlainTextEditor";
 
 describe('Plain text editor', () => {

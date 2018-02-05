@@ -1,6 +1,6 @@
 import {KeyList} from "./KeyList";
 import {toJS} from 'mobx';
-import {observableMapRecursive as omr} from "../../mobXUtils";
+import {observableMapRecursive as omr} from "../../util/mobXUtils";
 import {textToKeyData} from "../PlainTextEditor";
 
 describe('KeyList', () => {

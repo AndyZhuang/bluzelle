@@ -1,5 +1,5 @@
 import {EditableField} from "../../EditableField";
-import {observableMapRecursive} from "../../../mobXUtils";
+import {observableMapRecursive} from "../../../util/mobXUtils";
 import {execute} from "../../../services/CommandQueueService";
 
 export const NewField = ({ preamble, onChange, onError }) => (

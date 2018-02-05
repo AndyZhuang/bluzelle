@@ -1,7 +1,7 @@
 import {Collapsible} from "../Collapsible";
 import {Plus, Edit, Delete} from "../Buttons";
 import {Hoverable} from '../Hoverable.js';
-import {get} from '../../../mobXUtils';
+import {get} from '../../../util/mobXUtils';
 import {RenderTreeWithEditableKey} from "./RenderTreeWithEditableKey";
 import {NewField} from "./NewField";
 import {del} from '../../../services/CommandQueueService';

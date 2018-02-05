@@ -1,6 +1,6 @@
 import {objectToKeyData} from '../components/JSONEditor/JSONEditor';
 import {textToKeyData} from "../components/PlainTextEditor";
-import {observableMapRecursive} from "../mobXUtils";
+import {observableMapRecursive} from "../util/mobXUtils";
 
 const data = observableMapRecursive({
 
