@@ -1,20 +1,21 @@
-import PropTypes from 'prop-types';
 import {RenderTree} from "./Trees/RenderTree";
-import {execute} from "../../services/CommandQueueService";
 import {pipe} from 'lodash/fp';
 import {getRaw, addPrefix} from "../Editor";
 import {observableMapRecursive as omr} from "../../util/mobXUtils";
 import {byteArrayToStr, strToByteArray} from "../../util/encoding";
+import {executeContext, setExecuteContext} from "../../services/CommandQueueService";
 
 export const PREFIX = 0;
 
+@executeContext
+@setExecuteContext
 export class JSONEditor extends Component {
 
     getChildContext() {
         const {keyData} = this.props;
 
         return {
-            execute: args => execute({
+            execute: args => this.context.execute({
                 onSave: this.onSave.bind(this, keyData.get('interpreted')), ...args })
         };
     }
@@ -34,10 +35,6 @@ export class JSONEditor extends Component {
         return <RenderTree obj={keyData} propName='interpreted' isRoot={true}/>
     }
 }
-
-JSONEditor.childContextTypes = {
-    execute: PropTypes.func
-};
 
 
 const interpret = pipe(byteArrayToStr, JSON.parse);

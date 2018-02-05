@@ -1,6 +1,7 @@
 import {isObservableArray} from "mobx/lib/mobx";
 import {extend} from 'lodash';
 import PropTypes from 'prop-types';
+import {App} from "../components/App";
 
 export const commandQueue = observable([]);
 export const currentPosition = observable(0);
@@ -63,6 +64,11 @@ export const execute = ({ doIt, undoIt, onSave = () => {}, message }) => {
 
 export const executeContext = f => {
     f.contextTypes = { execute: PropTypes.func };
+    return f;
+};
+
+export const setExecuteContext = f => {
+    f.childContextTypes = { execute: PropTypes.func };
     return f;
 };
 
