@@ -5,11 +5,28 @@ import {textToKeyData} from "../PlainTextEditor";
 
 describe('KeyList', () => {
 
+    class SelectionWrapper extends Component {
+        constructor(props) {
+            super(props);
+            this.state = {selected: null};
+        }
+
+        render() {
+            return React.cloneElement(this.props.children, {
+                selected: this.state.selected,
+                onSelect: (v, callback) => this.setState({selected: v}, callback)
+            });
+        }
+    }
+
+
+    // TODO: all components should use context.execute. We should mock execute here.
+
     const findLabel = (wrapper, word) =>
         wrapper.find(BS.ListGroupItem)
             .filterWhere(el => el.text().includes(word));
 
-    it.only('should be able to select a new key', () => {
+    it('should be able to select a new key', () => {
 
         const spy = sinon.spy();
         const obj = omr({
@@ -17,7 +34,7 @@ describe('KeyList', () => {
             goodbye: textToKeyData("cruel world")
         });
 
-        const wrapper = shallow(<KeyList obj={obj} onSelect={spy}/>);
+        const wrapper = mount(<KeyList obj={obj} onSelect={spy}/>);
 
         findLabel(wrapper, 'hello').simulate('click');
 
@@ -45,8 +62,7 @@ describe('KeyList', () => {
 
         const obj = omr({ a: textToKeyData("2") });
 
-        const wrapper = mount(
-            <KeyList obj={obj} selected='a' onSelect={() => {}}/>);
+        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>);
 
         findLabel(wrapper, 'a').simulate('click');
 
@@ -54,7 +70,7 @@ describe('KeyList', () => {
             .at(1)
             .simulate('click');
 
-        expect(obj.toJS()).to.deep.equal({});
+        expect(toJS(obj)).to.deep.equal({});
 
     });
 
@@ -63,8 +79,7 @@ describe('KeyList', () => {
 
         const obj = omr({});
 
-        const wrapper = mount(
-            <KeyList obj={obj} onSelect={() => {}}/>);
+        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>);
 
         wrapper.find(BS.Button)
             .at(0)
@@ -85,8 +100,7 @@ describe('KeyList', () => {
 
         const obj = omr({});
 
-        const wrapper = mount(
-            <KeyList obj={obj} onSelect={() => {}}/>);
+        const wrapper = mount(<SelectionWrapper><KeyList obj={obj}/></SelectionWrapper>);
 
         wrapper.find(BS.Button)
             .at(0)
