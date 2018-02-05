@@ -47,3 +47,7 @@ const byteArrayToStr = arr => new TextDecoder(ENCODING).decode(arr);
 
 const interpret = pipe(byteArrayToStr, JSON.parse);
 const serialize = pipe(JSON.stringify, strToByteArray);
+
+
+export const objectToKeyData = obj => ({
+    bytearray: addPrefix(serialize(obj), PREFIX)});

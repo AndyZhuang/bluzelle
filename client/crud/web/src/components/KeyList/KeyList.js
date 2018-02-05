@@ -24,7 +24,7 @@ export class KeyList extends Component {
                 active={selected === key}>
 
                 <span style={{display: 'inline-block', width: 25}}>
-                    {objIcon(obj.get(key))}
+                    <ObjIcon keyData={obj.get(key)}/>
                 </span>
 
                 <EditableField
@@ -155,7 +155,7 @@ export class KeyList extends Component {
     }
 }
 
-const objIcon = keyData => (
+const ObjIcon = ({keyData}) => (
     <span style={{display: 'inline-block', width: 25}}>
         { getPrefix(keyData) === jsonPrefix &&
             <span style={{

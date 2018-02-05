@@ -9,6 +9,8 @@ import {observableMapRecursive as omr} from "../../mobXUtils";
 
 // Here we are stubbing context.execute, which would be provided by
 // JSONEditor and is used for undoing/saving.
+
+// TODO: replace with with enzyme built-in context option.
 import PropTypes from 'prop-types';
 
 class RenderTreeStubbed extends Component {

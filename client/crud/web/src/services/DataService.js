@@ -1,17 +1,6 @@
-import {addPrefix} from "../components/Editor";
-import {PREFIX as jsonPrefix} from '../components/JSONEditor/JSONEditor';
-import {PREFIX as textPrefix} from "../components/PlainTextEditor";
+import {objectToKeyData} from '../components/JSONEditor/JSONEditor';
+import {textToKeyData} from "../components/PlainTextEditor";
 import {observableMapRecursive} from "../mobXUtils";
-
-const strToByteArray = str => new TextEncoder('utf-8').encode(str);
-const serialize = x => strToByteArray(JSON.stringify(x));
-
-const objectToKeyData = obj => ({
-    bytearray: addPrefix(serialize(obj), jsonPrefix)});
-
-const textToKeyData = str => ({
-    bytearray: addPrefix(strToByteArray(str), textPrefix)});
-
 
 const data = observableMapRecursive({
 

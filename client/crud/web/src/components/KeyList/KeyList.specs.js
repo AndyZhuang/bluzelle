@@ -1,6 +1,7 @@
 import {KeyList} from "./KeyList";
-import {observableMapRecursive as omr} from "../../mobXUtils";
 import {toJS} from 'mobx';
+import {observableMapRecursive as omr} from "../../mobXUtils";
+import {textToKeyData} from "../PlainTextEditor";
 
 describe('KeyList', () => {
 
@@ -8,15 +9,15 @@ describe('KeyList', () => {
         wrapper.find(BS.ListGroupItem)
             .filterWhere(el => el.text().includes(word));
 
-    it('should be able to select a new key', () => {
+    it.only('should be able to select a new key', () => {
 
         const spy = sinon.spy();
         const obj = omr({
-            hello: "world",
-            goodbye: "cruel world"
+            hello: textToKeyData("world"),
+            goodbye: textToKeyData("cruel world")
         });
 
-        const wrapper = mount(<KeyList obj={obj} onSelect={spy}/>);
+        const wrapper = shallow(<KeyList obj={obj} onSelect={spy}/>);
 
         findLabel(wrapper, 'hello').simulate('click');
 
@@ -28,7 +29,7 @@ describe('KeyList', () => {
     it('should deselect the key when double-selecting', () => {
 
         const spy = sinon.spy();
-        const obj = omr({ a: 2 });
+        const obj = omr({ a: textToKeyData("2") });
 
         const wrapper = mount(
             <KeyList obj={obj} selected='a' onSelect={spy}/>);
@@ -42,7 +43,7 @@ describe('KeyList', () => {
 
     it('should be able to delete a key', () => {
 
-        const obj = omr({ a: 2 });
+        const obj = omr({ a: textToKeyData("2") });
 
         const wrapper = mount(
             <KeyList obj={obj} selected='a' onSelect={() => {}}/>);

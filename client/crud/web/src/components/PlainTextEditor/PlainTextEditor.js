@@ -70,3 +70,7 @@ export class PlainTextEditor extends Component {
 
 const strToByteArray = str => new TextEncoder(ENCODING).encode(str);
 const byteArrayToStr = arr => new TextDecoder(ENCODING).decode(arr);
+
+
+export const textToKeyData = str => ({
+    bytearray: addPrefix(strToByteArray(str), PREFIX)});
