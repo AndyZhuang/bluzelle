@@ -3,10 +3,10 @@ import {execute} from "../../services/CommandQueueService";
 import {pipe} from 'lodash/fp';
 import {getRaw, addPrefix} from "../Editor";
 import {observableMapRecursive as omr} from "../../mobXUtils";
+import {byteArrayToStr, strToByteArray} from "../../util/encoding";
 import PropTypes from 'prop-types';
 
 
-const ENCODING = 'utf-8';
 export const PREFIX = 0;
 
 export class JSONEditor extends Component {
@@ -41,9 +41,6 @@ JSONEditor.childContextTypes = {
     execute: PropTypes.func
 };
 
-
-const strToByteArray = str => new TextEncoder(ENCODING).encode(str);
-const byteArrayToStr = arr => new TextDecoder(ENCODING).decode(arr);
 
 const interpret = pipe(byteArrayToStr, JSON.parse);
 const serialize = pipe(JSON.stringify, strToByteArray);
