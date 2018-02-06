@@ -1,8 +1,6 @@
 import {EditableField} from "../EditableField";
-import {getPrefix} from "../Editor";
 import {executeContext} from "../../services/CommandQueueService";
-import {PREFIX as jsonPrefix} from '../JSONEditor';
-import {PREFIX as textPrefix} from '../PlainTextEditor';
+import {ObjIcon} from "../ObjIcon";
 
 @executeContext
 @observer
@@ -164,16 +162,3 @@ export class KeyList extends Component {
         );
     }
 }
-
-const ObjIcon = ({keyData}) => (
-    <span style={{display: 'inline-block', width: 25}}>
-        { getPrefix(keyData) === jsonPrefix &&
-            <span style={{
-                fontWeight: 'bold',
-                fontFamily: 'monospace'
-            }}>{'{}'}</span> }
-
-        { getPrefix(keyData) === textPrefix &&
-            <BS.Glyphicon glyph='font'/> }
-    </span>
-);

@@ -1,10 +1,9 @@
 import {Editor} from "./Editor";
 import {getSwarmData} from '../services/DataService';
 import {KeyList} from "./KeyList";
-import {Header} from "./Header";
+import {Header} from "./Header/Header";
 import 'bootstrap/dist/css/bootstrap.css';
 import {QueueEditor} from "./QueueEditor";
-import {execute} from "../services/CommandQueueService";
 
 @observer
 export class Main extends Component {
@@ -45,7 +44,9 @@ export class Main extends Component {
                         <ReflexElement>
                             {
                                 selected !== null &&
-                                <Editor keyData={obj.get(selected)} keyName={selected}/>
+                                <Editor keyData={obj.get(selected)}
+                                        keyName={selected}
+                                        onCancel={() => this.setState({selected: null})}/>
                             }
                         </ReflexElement>
                     </ReflexContainer>

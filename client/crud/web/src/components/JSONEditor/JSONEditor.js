@@ -1,6 +1,6 @@
 import {RenderTree} from "./Trees/RenderTree";
 import {pipe} from 'lodash/fp';
-import {getRaw, addPrefix} from "../Editor";
+import {getRaw, addPrefix} from "../keyData";
 import {observableMapRecursive as omr} from "../../util/mobXUtils";
 import {byteArrayToStr, strToByteArray} from "../../util/encoding";
 import {executeContext, setExecuteContext} from "../../services/CommandQueueService";
@@ -43,3 +43,5 @@ const serialize = pipe(JSON.stringify, strToByteArray);
 
 export const objectToKeyData = obj => ({
     bytearray: addPrefix(serialize(obj), PREFIX)});
+
+export const defaultKeyData = objectToKeyData({});

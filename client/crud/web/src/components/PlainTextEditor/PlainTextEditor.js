@@ -1,7 +1,6 @@
-import {getRaw, addPrefix} from "../Editor";
+import {getRaw, addPrefix} from "../keyData";
 import {execute} from "../../services/CommandQueueService";
 import {byteArrayToStr, strToByteArray} from "../../util/encoding";
-
 
 export const PREFIX = 1;
 const ENCODING = 'utf-8';
@@ -72,3 +71,5 @@ export class PlainTextEditor extends Component {
 
 export const textToKeyData = str => ({
     bytearray: addPrefix(strToByteArray(str), PREFIX)});
+
+export const defaultKeyData = textToKeyData('');
