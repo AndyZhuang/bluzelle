@@ -1,6 +1,9 @@
 import {EditableField} from "../EditableField";
 import {executeContext} from "../../services/CommandQueueService";
-import {ObjIcon} from "../ObjIcon";
+import {KeyListItem} from "./KeyListItem";
+
+
+export const selectedKey = observable(null);
 
 @executeContext
 @observer
@@ -14,86 +17,10 @@ export class KeyList extends Component {
     }
 
     render() {
-        const {obj, selected, onSelect} = this.props;
+        const {obj} = this.props;
 
-
-        const select = target => this.context.execute({
-            doIt: () => onSelect(target),
-            undoIt: () => onSelect(selected),
-            onSave: () => {},
-            message: <span>Selected <code key={1}>{target}</code>.</span>
-        });
-
-        const keyList = obj.keys().sort().map(key =>
-            <BS.ListGroupItem
-                key={key}
-                onClick={() => selected === key ? select(null) : select(key)}
-                active={selected === key}>
-
-                <span style={{display: 'inline-block', width: 25}}>
-                    <ObjIcon keyData={obj.get(key)}/>
-                </span>
-
-                <EditableField
-                    val={key}
-                    onChange={newkey => {
-
-                        const old = obj.get(key);
-                        const onSave = savedKeys => ({
-                            [newkey]: savedKeys[key] || old.get('bytearray'),
-                            [key]: 'deleted'});
-                        const message = <span>Renamed <code key={1}>{key}</code> to <code key={2}>{newkey}</code>.</span>;
-
-                        if(selected === key) {
-
-                            // This execution changes the selection to follow the new key name while the one in the
-                            // else block does not.
-
-                            this.context.execute({
-                                doIt: () => {
-                                    onSelect(null, () => {
-                                        obj.delete(key);
-                                        obj.set(newkey, old);
-                                        onSelect(newkey);
-                                    });
-                                },
-                                undoIt: () => {
-                                    onSelect(null, () => {
-                                        obj.delete(newkey);
-                                        obj.set(key, old);
-                                        onSelect(key);
-                                    });
-                                },
-                                onSave,
-                                message
-                            });
-
-                        } else {
-
-                            this.context.execute({
-                                doIt: () => {
-                                    obj.delete(key);
-                                    obj.set(newkey, old);
-                                },
-                                undoIt: () => {
-                                    obj.delete(newkey);
-                                    obj.set(key, old);
-                                },
-                                onSave,
-                                message
-                            });
-
-                        }
-                    }}/>
-
-                {
-                    key === selected ?
-                        <BS.Glyphicon
-                            style={{float: 'right'}}
-                            glyph='chevron-right'/>
-                        : null
-                }
-            </BS.ListGroupItem>);
+        const keyList = obj.keys().sort().map(keyname =>
+            <KeyListItem key={keyname} {...{keyname, obj}}/>);
 
 
         const newKey = this.state.editing &&
@@ -108,7 +35,7 @@ export class KeyList extends Component {
                         this.setState({editing: false});
                         if (key === '') return;
                         obj.set(key, observable.map({}));
-                        onSelect(key);
+                        selectedKey.set(key);
                     }}/>
             </BS.ListGroupItem>;
 
@@ -125,21 +52,20 @@ export class KeyList extends Component {
                 style={{color: 'red'}}
                 onClick={() => {
 
-                    if (selected !== null) {
-                        const oldObj = obj.get(selected);
+                    if (selectedKey.get() !== null) {
+                        const oldObj = obj.get(selectedKey.get());
 
                         this.context.execute({
                             doIt: () => {
-                                onSelect(null, () => {
-                                    obj.delete(selected);
-                                });
+                                selectedKey.set(null);
+                                obj.delete(selectedKey.get());
                             },
                             undoIt: () => {
-                                obj.set(selected, oldObj);
-                                onSelect(selected);
+                                obj.set(selectedKey.get(), oldObj);
+                                selectedKey.set(selectedKey.get());
                             },
-                            onSave: () => ({[selected]: 'deleted'}),
-                            message: <span>Deleted <code key={1}>{selected}</code></span>
+                            onSave: () => ({[selectedKey.get()]: 'deleted'}),
+                            message: <span>Deleted <code key={1}>{selectedKey.get()}</code></span>
                         });
                     }
 

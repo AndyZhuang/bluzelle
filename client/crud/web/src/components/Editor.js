@@ -6,15 +6,13 @@ import {NewEditor} from "./NewEditor";
 // This component chooses the correct rendering component based
 // on data type.
 
-// TODO: better name for keyData
+// TODO: keyData to data in editor and children.
 
 export const Editor = observer(props => {
 
     const {keyData} = props;
 
     const type = getPrefix(keyData);
-
-    console.log('')
 
     return (
         <React.Fragment>

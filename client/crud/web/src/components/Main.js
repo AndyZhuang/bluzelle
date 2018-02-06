@@ -1,6 +1,6 @@
 import {Editor} from "./Editor";
 import {getSwarmData} from '../services/DataService';
-import {KeyList} from "./KeyList";
+import {selectedKey, KeyList} from "./KeyList";
 import {Header} from "./Header/Header";
 import 'bootstrap/dist/css/bootstrap.css';
 import {QueueEditor} from "./QueueEditor";
@@ -12,15 +12,12 @@ export class Main extends Component {
 
         const obj = getSwarmData();
 
-        this.state = {
-            obj,
-            selected: obj.keys()[0]
-        };
+        this.state = {obj};
     }
 
     render() {
 
-        const {obj, selected} = this.state;
+        const {obj} = this.state;
         
         return (
             <ReflexContainer style={{height: '100%'}}>
@@ -35,20 +32,18 @@ export class Main extends Component {
 
                             <hr/>
 
-                            <KeyList
-                                obj={obj}
-                                selected={selected}
-                                onSelect={(key, callback) => this.setState({selected: key}, callback)}/>
+                            <KeyList obj={obj}/>
                         </ReflexElement>
                         <ReflexSplitter/>
                         <ReflexElement>
                             {
-                                selected !== null &&
-                                <Editor keyData={obj.get(selected)}
-                                        keyName={selected}
+                                // TODO: put this out of main.js
+                                selectedKey.get() !== null &&
+                                <Editor keyData={obj.get(selectedKey.get())}
+                                        keyName={selectedKey.get()}
                                         onCancel={() => {
-                                            obj.delete(selected);
-                                            this.setState({selected: null});
+                                            obj.delete(selectedKey.get());
+                                            selectedKey.set(null);
                                         }}/>
                             }
                         </ReflexElement>
