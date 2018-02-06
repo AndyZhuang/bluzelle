@@ -46,7 +46,10 @@ export class Main extends Component {
                                 selected !== null &&
                                 <Editor keyData={obj.get(selected)}
                                         keyName={selected}
-                                        onCancel={() => this.setState({selected: null})}/>
+                                        onCancel={() => {
+                                            obj.delete(selected);
+                                            this.setState({selected: null});
+                                        }}/>
                             }
                         </ReflexElement>
                     </ReflexContainer>

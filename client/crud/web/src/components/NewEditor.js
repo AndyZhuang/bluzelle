@@ -1,5 +1,6 @@
 import {defaultKeyData as jsonDefault} from './JSONEditor';
 import {defaultKeyData as plainTextDefault} from './PlainTextEditor';
+import {ObjIcon} from "./ObjIcon";
 
 export class NewEditor extends Component {
     json() {
@@ -19,10 +20,16 @@ export class NewEditor extends Component {
                     </BS.Modal.Title>
                 </BS.Modal.Header>
                 <BS.Modal.Body>
-                    <BS.ButtonGroup>
-                        <BS.Button onClick={() => this.json()}>JSON Data</BS.Button>
-                        <BS.Button onClick={() => this.plainText()}>Plain Text</BS.Button>
-                    </BS.ButtonGroup>
+                    <BS.ListGroup>
+                        <BS.ListGroupItem onClick={() => this.json()}>
+                            <ObjIcon keyData={observable.map(jsonDefault)}/>
+                            JSON Data
+                        </BS.ListGroupItem>
+                        <BS.ListGroupItem onClick={() => this.plainText()}>
+                            <ObjIcon keyData={observable.map(plainTextDefault)}/>
+                            Plain Text
+                        </BS.ListGroupItem>
+                    </BS.ListGroup>
                 </BS.Modal.Body>
             </BS.Modal>
         );
